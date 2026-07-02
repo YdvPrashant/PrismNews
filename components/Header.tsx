@@ -2,20 +2,22 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import { EASE_OUT } from "./brand";
 
 // Global top bar — a sticky hairline rail. Exactly h-14 (3.5rem): the tool's
 // "fill the viewport below the header" math depends on that height.
 export default function Header() {
   const pathname = usePathname();
+  const reduce = useReducedMotion();
   const onTool = pathname?.startsWith("/get-started") ?? false;
 
   return (
     <motion.header
-      initial={{ opacity: 0, y: -8 }}
+      initial={reduce ? false : { opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className="sticky top-0 z-50 border-b border-ink/10 bg-paper/90 backdrop-blur-sm"
+      transition={{ duration: 0.6, ease: EASE_OUT }}
+      className="sticky top-0 z-50 border-b border-ink/10 bg-paper/90 backdrop-blur-sm print:hidden"
     >
       <div className="mx-auto flex h-14 w-full max-w-grid items-center justify-between px-6">
         <div className="flex items-center gap-4">
@@ -42,6 +44,14 @@ export default function Header() {
         </div>
 
         <nav className="flex items-center gap-5" aria-label="Primary">
+          {/* Hidden below sm — three links + brand overflow the h-14 rail on
+              a 375px phone; the hero's own "How it works ↓" covers mobile. */}
+          <Link
+            href="/#how-it-works"
+            className="hidden text-[11px] font-medium uppercase tracking-[0.18em] text-ink/50 transition-colors hover:text-ink sm:block"
+          >
+            How it works
+          </Link>
           <Link
             href="/#about"
             className="text-[11px] font-medium uppercase tracking-[0.18em] text-ink/50 transition-colors hover:text-ink"

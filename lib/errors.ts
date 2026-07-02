@@ -11,5 +11,11 @@ export function friendlyError(err: unknown, fallback: string): string {
     }. (Groq free-tier daily limit.)`;
   }
 
+  // Server-config problems (missing/rejected API keys) name env vars — that's
+  // for the operator's terminal, not a reader's screen.
+  if (raw.includes("_API_KEY")) {
+    return "Prism's server isn't fully configured — this analysis service is unavailable right now.";
+  }
+
   return raw;
 }

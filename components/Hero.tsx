@@ -73,7 +73,7 @@ export default function Hero() {
           </span>
         </Link>
         <a
-          href="#about"
+          href="#how-it-works"
           className="group inline-flex items-center gap-2 px-4 py-4 text-base font-medium text-ink/70 transition-colors hover:text-ink"
         >
           How it works

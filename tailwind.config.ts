@@ -12,6 +12,12 @@ const config: Config = {
         paper: "#FFFFFF",
         ink: "#0A0A0A",
         accent: "#FF3B00",
+        // Semantic state colors — aliases of the already-validated muted data
+        // palette (bs/disputed text, misleading flag text, claim/supported bar),
+        // NOT new colors. For UI chrome: error labels, forensics flags, status dots.
+        danger: "#B02525",
+        warn: "#8A5A12",
+        ok: "#2F9E44",
       },
       fontFamily: {
         // Bound to the Inter next/font CSS variable set in app/layout.tsx.

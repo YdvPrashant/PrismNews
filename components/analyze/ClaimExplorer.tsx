@@ -19,11 +19,14 @@ export default function ClaimExplorer({ checks }: { checks: ClaimCheck[] }) {
   return (
     <div className="relative">
       <CornerMarks />
-      <div className="flex h-[clamp(24rem,56vh,36rem)] overflow-hidden border border-ink/15">
+      {/* Stacks on phones: the rail becomes a horizontal strip on top and the
+          detail pane scrolls below it (min-h-0 keeps that scroll working in
+          column flex — same trap as the workspace grid). */}
+      <div className="flex h-[clamp(24rem,56vh,36rem)] flex-col overflow-hidden border border-ink/15 md:flex-row">
         {/* Rail — one numbered button per claim, colored by verdict. */}
         <nav
           aria-label="Checked claims"
-          className="u-scroll flex w-14 shrink-0 flex-col overflow-y-auto border-r border-ink/10 sm:w-16"
+          className="u-scroll flex w-full shrink-0 flex-row overflow-x-auto border-b border-ink/10 md:w-16 md:flex-col md:overflow-x-visible md:overflow-y-auto md:border-b-0 md:border-r"
         >
           {checks.map((c, i) => {
             const v = VERDICT_META[c.verdict];
@@ -40,7 +43,7 @@ export default function ClaimExplorer({ checks }: { checks: ClaimCheck[] }) {
                 title={`Claim ${i + 1} — ${v.label}`}
                 aria-label={`Claim ${i + 1}, ${v.label}`}
                 aria-current={isActive}
-                className="flex h-14 shrink-0 flex-col items-center justify-center gap-0.5 border-b border-paper/70 transition-all hover:opacity-90 sm:h-16"
+                className="flex h-14 w-14 shrink-0 flex-col items-center justify-center gap-0.5 border-r border-paper/70 transition-all hover:opacity-90 md:h-16 md:w-auto md:border-b md:border-r-0"
                 style={{
                   backgroundColor: isActive ? v.bar : v.tint,
                   color: isActive ? v.onFill : v.text,
@@ -57,7 +60,7 @@ export default function ClaimExplorer({ checks }: { checks: ClaimCheck[] }) {
         </nav>
 
         {/* Detail — the selected claim. Keyed so source selection resets on switch. */}
-        <div className="u-scroll min-w-0 flex-1 overflow-y-auto">
+        <div className="u-scroll min-h-0 min-w-0 flex-1 overflow-y-auto">
           <AnimatePresence mode="wait">
             <motion.div
               key={active}
@@ -181,6 +184,7 @@ function SourceTab({
       type="button"
       onClick={onClick}
       title={evidence.publisher ?? `Source ${index + 1}`}
+      aria-label={evidence.publisher ?? `Source ${index + 1}`}
       aria-pressed={active}
       className={`relative flex h-10 w-10 items-center justify-center rounded-md border bg-paper transition-all hover:-translate-y-0.5 ${
         active ? "border-ink" : "border-ink/15"

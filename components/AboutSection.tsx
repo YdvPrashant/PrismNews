@@ -1,35 +1,36 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { EASE_OUT } from "./brand";
 
-// Placeholder project-details copy — the user will refine this in a later step.
+// The manifesto — why Prism exists. The mechanics live in <HowItWorks />, so
+// these cells stay thematic (and deliberately unnumbered: the landing's only
+// 01–05 numerals are the five instruments above).
 const principles = [
   {
-    no: "01",
     title: "Every angle",
-    body: "The same event is reported differently across the political and editorial spectrum. Prism gathers those versions side by side instead of picking one for you.",
+    body: "The same event reads differently at every outlet. Prism checks a story against how everyone else reported it — what was covered, what was softened, what was left out entirely.",
   },
   {
-    no: "02",
-    title: "Visible sourcing",
-    body: "Who published it, who owns them, and how many independent outlets are carrying the story — surfaced up front, not buried.",
+    title: "Receipts, not rulings",
+    body: "Claims are checked against live sources with the citations attached. Prism shows you the evidence and how strong it looks — the judgment stays yours.",
   },
   {
-    no: "03",
     title: "Bias in the open",
-    body: "We label leaning and framing transparently so you can weigh a claim with its context, and make up your own mind.",
+    body: "Who owns the outlet, who funds it, how it leans, and how it frames — labelled where you can see them, and cited so you can check them.",
   },
 ];
 
-const reveal = {
-  initial: { opacity: 0, y: 16 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-80px" },
-};
-
 export default function AboutSection() {
+  const reduce = useReducedMotion();
+
+  const reveal = {
+    initial: reduce ? false : { opacity: 0, y: 16 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: "-80px" },
+  };
+
   return (
     <section
       id="about"
@@ -42,7 +43,7 @@ export default function AboutSection() {
           className="md:col-span-4"
         >
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-accent">
-            The project — 01
+            The project
           </p>
           <h2 className="mt-4 text-4xl font-bold leading-[0.95] tracking-tightest sm:text-5xl">
             News,
@@ -64,8 +65,9 @@ export default function AboutSection() {
           </p>
 
           <p className="mt-6 text-base leading-relaxed text-ink/50">
-            This is an early, evolving build. What you see here is the starting
-            point — we&apos;re shaping it in the open, step by step.
+            Prism doesn&apos;t tell you what to think. Every verdict is cited, every
+            color is explained, and the receipts are one click away — it&apos;s a
+            lens, not a referee.
           </p>
         </motion.div>
       </div>
@@ -73,7 +75,7 @@ export default function AboutSection() {
       <div className="mt-24 grid border-t border-ink/10 md:grid-cols-3">
         {principles.map((p, i) => (
           <motion.div
-            key={p.no}
+            key={p.title}
             {...reveal}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.6, delay: i * 0.1, ease: EASE_OUT }}
@@ -83,17 +85,8 @@ export default function AboutSection() {
               aria-hidden
               className="absolute left-0 top-[-1px] h-px w-0 bg-accent transition-all duration-300 group-hover:w-full"
             />
-            {/* Ghost numeral — editorial scale, ink until hovered. */}
-            <span
-              aria-hidden
-              className="block text-5xl font-light leading-none tracking-tightest text-ink/[0.16] transition-colors duration-300 group-hover:text-accent"
-            >
-              {p.no}
-            </span>
-            <h3 className="mt-5 text-xl font-semibold tracking-tight">
-              {p.title}
-            </h3>
-            <p className="mt-3 text-sm leading-relaxed text-ink/60">{p.body}</p>
+            <h3 className="text-2xl font-semibold tracking-tight">{p.title}</h3>
+            <p className="mt-4 text-sm leading-relaxed text-ink/60">{p.body}</p>
           </motion.div>
         ))}
       </div>

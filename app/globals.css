@@ -86,3 +86,39 @@
     background: transparent;
   }
 }
+
+/* ---- Print: the downloadable report -------------------------------------
+   Screen UI carries `print:hidden` (the Header always; the tool's screen tree
+   only once a report exists) and the report itself is `hidden print:block` —
+   Tailwind's print variant does the show/hide; this block covers what
+   utilities can't: page margins, color fidelity, document typography. */
+@page {
+  margin: 16mm;
+}
+
+@media print {
+  html {
+    scroll-behavior: auto;
+  }
+
+  body {
+    background: var(--paper);
+  }
+
+  .print-report {
+    /* Category tints and verdict chips must survive the printer's default
+       background-stripping (Chrome/Safari need the -webkit- form). Every
+       color also ships a glyph or text label, so even forced-grayscale
+       output stays legible. */
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    font-size: 11pt;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
+  .print-report a {
+    color: inherit;
+    text-decoration: none;
+  }
+}

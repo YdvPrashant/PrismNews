@@ -11,7 +11,15 @@ import ClaimExplorer from "./ClaimExplorer";
 
 type Status = "idle" | "loading" | "done" | "error";
 
-export default function FactCheck({ claims }: { claims: string[] }) {
+// `onResult` reports successful loads up to the orchestrator (for the report);
+// local state stays the source of truth for this section's own UI.
+export default function FactCheck({
+  claims,
+  onResult,
+}: {
+  claims: string[];
+  onResult?: (result: FactCheckResult) => void;
+}) {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<FactCheckResult | null>(null);
@@ -29,6 +37,7 @@ export default function FactCheck({ claims }: { claims: string[] }) {
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error ?? "Fact-check failed.");
       setResult(data as FactCheckResult);
+      onResult?.(data as FactCheckResult);
       setStatus("done");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
@@ -150,13 +159,13 @@ function ErrorState({
 }) {
   return (
     <motion.div
-      key="error"
+      role="alert"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="mt-10 flex flex-col items-center gap-4 border border-ink/10 px-6 py-12 text-center"
     >
-      <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#B02525]">
+      <p className="text-xs font-medium uppercase tracking-[0.2em] text-danger">
         The check didn&apos;t go through
       </p>
       <p className="max-w-md text-sm text-ink/60">
@@ -279,7 +288,7 @@ function Dashboard({ result }: { result: FactCheckResult }) {
 
       <p className="mt-8 max-w-xl text-xs leading-relaxed text-ink/40">
         Prism&apos;s read of the sources it found — not a final ruling. For claims
-        that matter, follow the links and judge the evidence yourself.
+        that matter, follow the citations and judge for yourself.
       </p>
     </motion.div>
   );

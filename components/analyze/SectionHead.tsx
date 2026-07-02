@@ -1,8 +1,10 @@
 import type { ReactNode } from "react";
 import SpectrumRule from "@/components/SpectrumRule";
 
-// Shared header for the tool's numbered screens (01 workspace · 02 spectrum ·
-// 03 fact check): index + accent eyebrow, title, spectrum rule, optional sub.
+// Shared header for the tool's numbered screens (02 spectrum · 03 provenance ·
+// 04 fact check · 05 full picture): index + accent eyebrow, title, spectrum
+// rule, optional sub. Screen 01 (workspace) deliberately keeps a minimal
+// inline eyebrow instead — it has to fit its card in one viewport.
 export default function SectionHead({
   index,
   eyebrow,

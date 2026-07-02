@@ -37,6 +37,12 @@ export default function SpectrumView({ result }: { result: AnalysisResult }) {
       <div className="md:col-span-7">
         <Transcript segments={result.segments} active={active} />
       </div>
+
+      {/* Closing honesty note — every screen ends on one, in the same voice. */}
+      <p className="max-w-xl text-xs leading-relaxed text-ink/40 md:col-span-12">
+        Colors are Prism&apos;s read of each sentence — hover or tap any line
+        for its reasoning, and judge the piece for yourself.
+      </p>
     </motion.div>
   );
 }

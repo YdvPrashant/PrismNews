@@ -27,12 +27,12 @@ export default function SourcePanel({
   const words = (article?.text ?? value).trim().match(/\S+/g)?.length ?? 0;
   const state =
     status === "extracting"
-      ? { label: "Reading…", dot: "#FF3B00", pulse: true }
+      ? { label: "Reading…", dot: "bg-accent", pulse: true }
       : status === "analyzing"
-        ? { label: "Refracting…", dot: "#FF3B00", pulse: true }
+        ? { label: "Refracting…", dot: "bg-accent", pulse: true }
         : status === "error"
-          ? { label: "Failed", dot: "#B02525", pulse: false }
-          : { label: "Ready", dot: "#2F9E44", pulse: false };
+          ? { label: "Failed", dot: "bg-danger", pulse: false }
+          : { label: "Ready", dot: "bg-ok", pulse: false };
 
   const meta: { k: string; v: string }[] = [
     { k: "Detected", v: detected === "url" ? "Link" : "Text" },
@@ -51,8 +51,7 @@ export default function SourcePanel({
         <span className="inline-flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-[0.18em] text-ink/45">
           <span
             aria-hidden
-            className={`h-1.5 w-1.5 rounded-full ${state.pulse ? "animate-pulse" : ""}`}
-            style={{ backgroundColor: state.dot }}
+            className={`h-1.5 w-1.5 rounded-full ${state.dot} ${state.pulse ? "animate-pulse" : ""}`}
           />
           {state.label}
         </span>

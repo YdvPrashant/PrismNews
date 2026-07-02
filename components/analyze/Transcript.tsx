@@ -109,7 +109,8 @@ export default function Transcript({
             </>
           ) : (
             <span className="text-xs text-ink/40">
-              Hover a sentence to see why it&apos;s classified — click to pin it.
+              Hover, tap, or focus a sentence to see why it&apos;s classified —
+              click (or press Enter) to pin it.
             </span>
           )}
         </div>
