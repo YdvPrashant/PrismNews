@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --paper: #ffffff;
+  --ink: #0a0a0a;
+  --accent: #ff3b00;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--accent);
+    color: var(--paper);
+  }
+
+  /* Keyboard focus — a crisp ink ring, offset so it never melts into a fill. */
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+
+  /* The text caret is one of the sanctioned "small marks" for the accent. */
+  textarea,
+  input {
+    caret-color: var(--accent);
+  }
+}
+
+@layer utilities {
+  /* Faint drafting grid — the tool's "optical bench" surface. Pure hairlines
+     (stays black/white), masked so it dissolves toward the edges. */
+  .bg-blueprint {
+    background-image: linear-gradient(
+        to right,
+        rgb(10 10 10 / 0.035) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgb(10 10 10 / 0.035) 1px, transparent 1px);
+    background-size: 2rem 2rem;
+    -webkit-mask-image: radial-gradient(
+      ellipse 85% 75% at 50% 42%,
+      black 45%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      ellipse 85% 75% at 50% 42%,
+      black 45%,
+      transparent 100%
+    );
+  }
+
+  /* Hairline scrollbars for internal reading surfaces (transcript, preview…). */
+  .u-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(10 10 10 / 0.2) transparent;
+  }
+  .u-scroll::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .u-scroll::-webkit-scrollbar-thumb {
+    background: rgb(10 10 10 / 0.18);
+  }
+  .u-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgb(10 10 10 / 0.35);
+  }
+  .u-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
