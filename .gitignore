@@ -29,3 +29,12 @@ next-env.d.ts
 
 # vercel
 .vercel
+
+# claude code — keep project-shared config, ignore personal/local overrides
+.claude/settings.local.json
+
+# ide / os
+.idea
+.vscode
+Thumbs.db
+*.log
