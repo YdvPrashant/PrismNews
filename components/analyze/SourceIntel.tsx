@@ -29,10 +29,14 @@ type Status = "idle" | "loading" | "done" | "error";
 // 03 · Provenance — who is telling you this story? On-demand dossier on the
 // outlet (ownership, money, leaning, reliability), the author, and the domain's
 // paper trail (registration + hosting). Link-only: pasted text has no source.
+// `onResult` reports successful loads up to the orchestrator (for the report);
+// local state stays the source of truth for this section's own UI.
 export default function SourceIntel({
   article,
+  onResult,
 }: {
   article: ExtractedArticle | null;
+  onResult?: (result: SourceIntelResult) => void;
 }) {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
@@ -63,6 +67,7 @@ export default function SourceIntel({
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error ?? "Source trace failed.");
       setResult(data as SourceIntelResult);
+      onResult?.(data as SourceIntelResult);
       setStatus("done");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
@@ -204,12 +209,13 @@ function ErrorState({
 }) {
   return (
     <motion.div
+      role="alert"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="mt-10 flex flex-col items-center gap-4 border border-ink/10 px-6 py-12 text-center"
     >
-      <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#B02525]">
+      <p className="text-xs font-medium uppercase tracking-[0.2em] text-danger">
         The trace didn&apos;t go through
       </p>
       <p className="max-w-md text-sm text-ink/60">
@@ -541,8 +547,7 @@ function Dossier({ result }: { result: SourceIntelResult }) {
                   {forensics.flags.map((flag) => (
                     <p
                       key={flag}
-                      className="mt-2 text-[11px] font-medium leading-snug"
-                      style={{ color: "#8A5A12" }}
+                      className="mt-2 text-[11px] font-medium leading-snug text-warn"
                     >
                       ▲ {flag}
                     </p>

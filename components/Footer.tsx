@@ -25,10 +25,10 @@ export default function Footer() {
           <span>see every angle.</span>
         </div>
 
-        <span className="sm:text-center">An early, in-progress build.</span>
+        <span className="sm:text-center">Built in the open.</span>
 
         <span className="uppercase tracking-[0.2em] sm:text-right">
-          © 2026 · v0.1
+          © 2026 · v0.2
         </span>
       </div>
     </footer>

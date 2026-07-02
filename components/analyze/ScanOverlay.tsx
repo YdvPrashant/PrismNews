@@ -23,7 +23,11 @@ export default function ScanOverlay({ label }: { label: string }) {
         />
       )}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center text-ink/60">
-        <p className="bg-paper/80 px-3 py-1 text-sm">{label}</p>
+        {/* role="status" announces the busy state to screen readers on every
+            screen that uses this overlay. */}
+        <p role="status" className="bg-paper/80 px-3 py-1 text-sm">
+          {label}
+        </p>
       </div>
     </>
   );

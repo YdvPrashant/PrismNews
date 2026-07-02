@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { EASE_OUT } from "@/components/brand";
 import type { Category, CategoryScore, Segment } from "@/lib/types";
 import { CATEGORY_META, CATEGORY_ORDER } from "./categories";
+import { deriveGlance } from "./glance";
 
 // The left-hand "composition" view: a thin grouped proportion bar (BS → Neutral
 // → Claim → Opinion) with 2px paper gaps doing the separating, an interactive
@@ -28,27 +29,11 @@ export default function ProportionBar({
 
   const visible = CATEGORY_ORDER.filter((c) => pct(c) > 0);
 
-  // ---- Derived signals (things the raw legend doesn't already say) ----
-  const claim = pct("claim");
-  const opinion = pct("opinion");
-  const bs = pct("bs");
-  const signal = Math.min(100, claim + opinion + bs); // vs. neutral "filler"
-
-  const verdict =
-    bs >= 25
-      ? { label: "Rhetoric-heavy", note: "A lot of loaded or empty phrasing." }
-      : claim >= opinion
-        ? { label: "Fact-led", note: "Mostly checkable statements." }
-        : { label: "Opinion-led", note: "Interpretation outweighs fact." };
-
-  const ratio =
-    claim > 0 ? `${(opinion / claim).toFixed(1)}×` : opinion > 0 ? "∞" : "—";
-
-  const wordCount = segments.reduce(
-    (n, s) => n + (s.text.trim().match(/\S+/g)?.length ?? 0),
-    0,
+  // ---- Derived signals (shared with the printable report via glance.ts) ----
+  const { verdict, ratio, signal, words, readMin } = deriveGlance(
+    segments,
+    scores,
   );
-  const readMin = Math.max(1, Math.round(wordCount / 200));
 
   const stats: { label: string; value: string; hint: string }[] = [
     {
@@ -64,7 +49,7 @@ export default function ProportionBar({
     {
       label: "Length",
       value: `${segments.length} sentences`,
-      hint: `~${wordCount.toLocaleString()} words · ${readMin} min read`,
+      hint: `~${words.toLocaleString()} words · ${readMin} min read`,
     },
   ];
 
@@ -94,7 +79,9 @@ export default function ProportionBar({
         transition={{ duration: 0.8, ease: EASE_OUT }}
         style={{ transformOrigin: "left" }}
         className="mt-5 flex h-6 w-full gap-[2px]"
-        role="img"
+        // role="group", not "img": the segments are real buttons, and an
+        // img-role element must not contain focusable descendants.
+        role="group"
         aria-label={visible
           .map((c) => `${CATEGORY_META[c].label} ${pct(c)}%`)
           .join(", ")}

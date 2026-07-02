@@ -14,20 +14,25 @@ import { COMPLETENESS_META, COVERAGE_META } from "./coverage";
 type Status = "idle" | "loading" | "done" | "error";
 
 const STATUS_ORDER: CoverageStatus[] = ["covered", "partial", "missing"];
-const MIN_TEXT_CHARS = 200;
+// Exported so the report registry (report.ts) mirrors this exact guard.
+export const MIN_TEXT_CHARS = 200;
 
 // 05 · The Full Picture — was it the full story? Compares this article against
 // other outlets' coverage of the same event and shows what it covered, softened,
 // or left out. Works for links AND pasted text (we search by the event, not the
 // URL); the article's own outlet is excluded from the comparison pool.
+// `onResult` reports successful loads up to the orchestrator (for the report);
+// local state stays the source of truth for this section's own UI.
 export default function FullStory({
   text,
   title,
   url,
+  onResult,
 }: {
   text: string;
   title?: string;
   url?: string;
+  onResult?: (result: FullStoryResult) => void;
 }) {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
@@ -48,6 +53,7 @@ export default function FullStory({
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error ?? "Coverage comparison failed.");
       setResult(data as FullStoryResult);
+      onResult?.(data as FullStoryResult);
       setStatus("done");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
@@ -168,12 +174,13 @@ function ErrorState({
 }) {
   return (
     <motion.div
+      role="alert"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="mt-10 flex flex-col items-center gap-4 border border-ink/10 px-6 py-12 text-center"
     >
-      <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#B02525]">
+      <p className="text-xs font-medium uppercase tracking-[0.2em] text-danger">
         The comparison didn&apos;t go through
       </p>
       <p className="max-w-md text-sm text-ink/60">

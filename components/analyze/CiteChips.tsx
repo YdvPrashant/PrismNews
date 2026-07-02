@@ -26,6 +26,7 @@ export default function CiteChips({
           target="_blank"
           rel="noopener noreferrer"
           title={s.publisher ?? s.title}
+          aria-label={s.publisher ?? (s.title || `Source ${i + 1}`)}
           className="flex h-6 w-6 items-center justify-center border border-ink/15 bg-paper transition-colors hover:border-ink"
         >
           <Favicon domain={s.publisher} fallback={i + 1} size={14} />
