@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { EASE_OUT } from "@/components/brand";
 import type { Category, CategoryScore, Segment } from "@/lib/types";
 import { CATEGORY_META, CATEGORY_ORDER } from "./categories";
@@ -21,7 +21,6 @@ export default function ProportionBar({
   active: Category | null;
   onSelect: (c: Category) => void;
 }) {
-  const reduce = useReducedMotion();
   const byCategory = new Map(scores.map((s) => [s.category, s]));
   const pct = (c: Category) => byCategory.get(c)?.percent ?? 0;
   const count = (c: Category) =>
@@ -63,7 +62,7 @@ export default function ProportionBar({
           <button
             type="button"
             onClick={() => onSelect(active)}
-            className="text-[10px] uppercase tracking-[0.18em] text-ink/40 underline underline-offset-2 hover:text-ink"
+            className="text-[10px] uppercase tracking-[0.2em] text-ink/40 underline underline-offset-2 hover:text-ink"
           >
             Clear
           </button>
@@ -73,8 +72,8 @@ export default function ProportionBar({
       {/* The proportion bar — thin marks, paper gaps between fills (no borders,
           no inline numbers: the legend below carries every value). */}
       <motion.div
-        initial={reduce ? false : { opacity: 0, scaleX: 0 }}
-        whileInView={reduce ? undefined : { opacity: 1, scaleX: 1 }}
+        initial={{ opacity: 0, scaleX: 0 }}
+        whileInView={{ opacity: 1, scaleX: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8, ease: EASE_OUT }}
         style={{ transformOrigin: "left" }}
@@ -122,7 +121,7 @@ export default function ProportionBar({
                 type="button"
                 onClick={() => onSelect(cat)}
                 aria-pressed={isActive}
-                className="flex w-full items-center justify-between gap-3 border-b border-ink/[0.06] px-2.5 py-3 text-left transition-colors hover:bg-ink/[0.03]"
+                className="flex w-full items-center justify-between gap-3 border-b border-ink/[0.06] px-2.5 py-3 text-left transition-colors duration-200 hover:bg-ink/[0.03]"
                 style={{
                   opacity: dim ? 0.4 : 1,
                   boxShadow: isActive ? `inset 3px 0 0 0 ${meta.bar}` : "none",
@@ -167,7 +166,7 @@ export default function ProportionBar({
 
       {/* At a glance — derived, meaningful signals about the piece. */}
       <div className="mt-8">
-        <p className="text-[10px] font-medium uppercase tracking-[0.25em] text-ink/35">
+        <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-ink/35">
           At a glance
         </p>
 

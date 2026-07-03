@@ -23,7 +23,9 @@ type PrismLogoProps = {
  *    `opacity` snap. We never animate x2/y2, and never bind the entrance opacity to
  *    the looping shimmer — those conflicts are what hid the rays before.
  *
- * Respects prefers-reduced-motion: renders the final, fully-refracted static state.
+ * Motion policy (Step 12, user decision): the one-time entrance draw plays for
+ * everyone; only the LOOPING motion (idle shimmer, traveling pulse) respects
+ * prefers-reduced-motion.
  */
 
 // Upward triangle: apex at top, base at the bottom.
@@ -78,16 +80,12 @@ export default function PrismLogo({ size = 180, className }: PrismLogoProps) {
             stroke={ray.color}
             strokeWidth={3.4}
             strokeLinecap="round"
-            initial={reduce ? false : { pathLength: 0, opacity: 0 }}
+            initial={{ pathLength: 0, opacity: 0 }}
             animate={{ pathLength: 1, opacity: 1 }}
-            transition={
-              reduce
-                ? { duration: 0 }
-                : {
-                    pathLength: { duration: 0.6, delay: ray.delay, ease: "easeOut" },
-                    opacity: { duration: 0.2, delay: ray.delay },
-                  }
-            }
+            transition={{
+              pathLength: { duration: 0.6, delay: ray.delay, ease: "easeOut" },
+              opacity: { duration: 0.2, delay: ray.delay },
+            }}
           />
         ))}
       </motion.g>
@@ -101,11 +99,9 @@ export default function PrismLogo({ size = 180, className }: PrismLogoProps) {
         stroke="#0A0A0A"
         strokeWidth={2}
         strokeLinecap="round"
-        initial={reduce ? false : { pathLength: 0, opacity: 0 }}
+        initial={{ pathLength: 0, opacity: 0 }}
         animate={{ pathLength: 1, opacity: 0.45 }}
-        transition={
-          reduce ? { duration: 0 } : { duration: 0.35, delay: 0.95, ease: "easeOut" }
-        }
+        transition={{ duration: 0.35, delay: 0.95, ease: "easeOut" }}
       />
 
       {/* Prism outline, on top */}
@@ -114,16 +110,12 @@ export default function PrismLogo({ size = 180, className }: PrismLogoProps) {
         stroke="#0A0A0A"
         strokeWidth={3}
         strokeLinejoin="round"
-        initial={reduce ? false : { pathLength: 0, opacity: 0 }}
+        initial={{ pathLength: 0, opacity: 0 }}
         animate={{ pathLength: 1, opacity: 1 }}
-        transition={
-          reduce
-            ? { duration: 0 }
-            : {
-                pathLength: { duration: 0.8, delay: 0.1, ease: "easeInOut" },
-                opacity: { duration: 0.3, delay: 0.1 },
-              }
-        }
+        transition={{
+          pathLength: { duration: 0.8, delay: 0.1, ease: "easeInOut" },
+          opacity: { duration: 0.3, delay: 0.1 },
+        }}
       />
 
       {/* Incoming ink beam */}
@@ -135,11 +127,9 @@ export default function PrismLogo({ size = 180, className }: PrismLogoProps) {
         stroke="#0A0A0A"
         strokeWidth={3}
         strokeLinecap="round"
-        initial={reduce ? false : { pathLength: 0, opacity: 0 }}
+        initial={{ pathLength: 0, opacity: 0 }}
         animate={{ pathLength: 1, opacity: 1 }}
-        transition={
-          reduce ? { duration: 0 } : { duration: 0.4, delay: 0.65, ease: "easeOut" }
-        }
+        transition={{ duration: 0.4, delay: 0.65, ease: "easeOut" }}
       />
 
       {/* Light pulse traveling into the prism (skipped under reduced motion) */}

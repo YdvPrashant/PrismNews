@@ -28,13 +28,13 @@ export default function AboutSection() {
   const reveal = {
     initial: reduce ? false : { opacity: 0, y: 16 },
     whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: "-80px" },
+    viewport: { once: true, margin: "-60px" },
   };
 
   return (
     <section
       id="about"
-      className="mx-auto w-full max-w-grid scroll-mt-24 px-6 py-28 md:py-40"
+      className="mx-auto w-full max-w-grid scroll-mt-24 px-6 py-20 md:py-24"
     >
       <div className="grid gap-12 md:grid-cols-12">
         <motion.div
@@ -55,7 +55,7 @@ export default function AboutSection() {
         <motion.div
           {...reveal}
           transition={{ duration: 0.7, delay: 0.1, ease: EASE_OUT }}
-          className="md:col-span-7 md:col-start-6"
+          className="md:col-span-6 md:col-start-7"
         >
           <p className="text-balance text-xl leading-relaxed text-ink/80 sm:text-2xl">
             Most news reaches you already filtered — one outlet, one framing, one
@@ -95,14 +95,14 @@ export default function AboutSection() {
       <motion.div
         {...reveal}
         transition={{ duration: 0.6, ease: EASE_OUT }}
-        className="mt-20 flex items-center justify-between gap-6 border-t border-ink/10 pt-8"
+        className="mt-20 flex flex-col items-start gap-4 border-t border-ink/10 pt-8 sm:flex-row sm:items-center sm:justify-between sm:gap-6"
       >
         <p className="text-sm text-ink/50">
           Enough reading about it —
         </p>
         <Link
           href="/get-started"
-          className="group inline-flex shrink-0 items-center gap-2 text-sm font-semibold tracking-tight text-ink transition-colors hover:text-accent"
+          className="group inline-flex shrink-0 items-center gap-2 text-sm font-semibold tracking-tight text-ink transition-colors duration-200 ease-swiss hover:text-accent"
         >
           Refract a story
           <span

@@ -17,12 +17,12 @@ export default function Error({
   }, [error]);
 
   return (
-    <main className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center px-6">
+    <main className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center px-6 pb-14">
       <div
         role="alert"
         className="flex w-full max-w-md flex-col items-center gap-4 border border-ink/10 px-8 py-12 text-center"
       >
-        <p className="text-xs font-medium uppercase tracking-[0.2em] text-danger">
+        <p className="text-xs font-medium uppercase tracking-[0.25em] text-danger">
           The beam didn&apos;t make it through
         </p>
         <p className="text-sm text-ink/60">
@@ -33,7 +33,7 @@ export default function Error({
           <button
             type="button"
             onClick={reset}
-            className="bg-ink px-6 py-3 text-sm font-medium text-paper transition-colors hover:bg-accent"
+            className="bg-ink px-6 py-3 text-sm font-medium text-paper transition-colors duration-200 ease-swiss hover:bg-accent"
           >
             Try again
           </button>

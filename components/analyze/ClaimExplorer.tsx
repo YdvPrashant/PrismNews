@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { EASE_OUT } from "@/components/brand";
 import CornerMarks from "@/components/CornerMarks";
 import type { ClaimCheck, Confidence, Evidence } from "@/lib/types";
@@ -15,6 +15,7 @@ import Favicon from "./Favicon";
 export default function ClaimExplorer({ checks }: { checks: ClaimCheck[] }) {
   const [active, setActive] = useState(0);
   const current = checks[active];
+  const reduce = useReducedMotion();
 
   return (
     <div className="relative">
@@ -43,7 +44,7 @@ export default function ClaimExplorer({ checks }: { checks: ClaimCheck[] }) {
                 title={`Claim ${i + 1} — ${v.label}`}
                 aria-label={`Claim ${i + 1}, ${v.label}`}
                 aria-current={isActive}
-                className="flex h-14 w-14 shrink-0 flex-col items-center justify-center gap-0.5 border-r border-paper/70 transition-all hover:opacity-90 md:h-16 md:w-auto md:border-b md:border-r-0"
+                className="flex h-14 w-14 shrink-0 flex-col items-center justify-center gap-0.5 border-r border-paper/70 transition-all duration-200 hover:opacity-90 md:h-16 md:w-auto md:border-b md:border-r-0"
                 style={{
                   backgroundColor: isActive ? v.bar : v.tint,
                   color: isActive ? v.onFill : v.text,
@@ -64,9 +65,9 @@ export default function ClaimExplorer({ checks }: { checks: ClaimCheck[] }) {
           <AnimatePresence mode="wait">
             <motion.div
               key={active}
-              initial={{ opacity: 0, x: 10 }}
+              initial={reduce ? { opacity: 0 } : { opacity: 0, x: 10 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -10 }}
+              exit={reduce ? { opacity: 0 } : { opacity: 0, x: -10 }}
               transition={{ duration: 0.28, ease: EASE_OUT }}
               className="p-6 sm:p-8"
             >
@@ -110,7 +111,7 @@ function ClaimDetail({ check, index }: { check: ClaimCheck; index: number }) {
     <div>
       {/* Header: claim number · confidence · verdict */}
       <div className="flex items-center justify-between gap-4">
-        <span className="text-xs font-medium uppercase tracking-[0.22em] text-ink/35">
+        <span className="text-xs font-medium uppercase tracking-[0.2em] text-ink/35">
           Claim {String(index + 1).padStart(2, "0")}
         </span>
         <div className="flex items-center gap-3">
@@ -186,7 +187,7 @@ function SourceTab({
       title={evidence.publisher ?? `Source ${index + 1}`}
       aria-label={evidence.publisher ?? `Source ${index + 1}`}
       aria-pressed={active}
-      className={`relative flex h-10 w-10 items-center justify-center rounded-md border bg-paper transition-all hover:-translate-y-0.5 ${
+      className={`relative flex h-10 w-10 items-center justify-center rounded-md border bg-paper transition-all duration-200 hover:-translate-y-0.5 ${
         active ? "border-ink" : "border-ink/15"
       }`}
       style={active ? { boxShadow: "inset 0 0 0 1px #0A0A0A" } : undefined}
@@ -206,7 +207,7 @@ function SourcePanelView({ source }: { source: Evidence }) {
   const stance = STANCE_META[source.stance];
   return (
     <div className="mt-4">
-      <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.12em]">
+      <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.2em]">
         <span
           className="inline-flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold text-white"
           style={{ backgroundColor: stance.color }}

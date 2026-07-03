@@ -215,7 +215,7 @@ function ErrorState({
       exit={{ opacity: 0 }}
       className="mt-10 flex flex-col items-center gap-4 border border-ink/10 px-6 py-12 text-center"
     >
-      <p className="text-xs font-medium uppercase tracking-[0.2em] text-danger">
+      <p className="text-xs font-medium uppercase tracking-[0.25em] text-danger">
         The trace didn&apos;t go through
       </p>
       <p className="max-w-md text-sm text-ink/60">
@@ -224,7 +224,7 @@ function ErrorState({
       <button
         type="button"
         onClick={onRetry}
-        className="bg-ink px-6 py-3 text-sm font-medium text-paper transition-colors hover:bg-accent"
+        className="bg-ink px-6 py-3 text-sm font-medium text-paper transition-colors duration-200 ease-swiss hover:bg-accent"
       >
         Try again
       </button>
@@ -250,7 +250,7 @@ function LeaningDial({
   return (
     <div className="p-5 sm:p-6">
       <div className="flex items-baseline justify-between gap-3">
-        <p className="text-[10px] font-medium uppercase tracking-[0.25em] text-ink/35">
+        <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-ink/35">
           Political leaning
         </p>
         <p className="text-sm font-bold tracking-tight">
@@ -319,7 +319,7 @@ function ReliabilityMeter({
   return (
     <div className="p-5 sm:p-6">
       <div className="flex items-baseline justify-between gap-3">
-        <p className="text-[10px] font-medium uppercase tracking-[0.25em] text-ink/35">
+        <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-ink/35">
           Historical reliability
         </p>
         <p className="text-sm font-bold tracking-tight">
@@ -422,13 +422,13 @@ function Dossier({ result }: { result: SourceIntelResult }) {
           <SpectrumRule className="h-[3px]" />
 
           {/* Identity strip */}
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-ink/10 p-5 sm:p-6">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-ink/10 p-6 sm:p-8">
             <div className="flex min-w-0 items-center gap-4">
               <span className="flex h-12 w-12 shrink-0 items-center justify-center border border-ink/15 bg-paper">
                 <Favicon domain={result.domain} fallback="?" size={26} />
               </span>
               <div className="min-w-0">
-                <h3 className="truncate text-2xl font-bold tracking-tight">
+                <h3 className="truncate text-xl font-bold tracking-tight sm:text-2xl">
                   {result.outletName}
                 </h3>
                 <p className="mt-0.5 truncate text-xs text-ink/45">
@@ -444,10 +444,10 @@ function Dossier({ result }: { result: SourceIntelResult }) {
 
           {/* Instrument readouts — the dial and the meter. */}
           <div className="grid border-b border-ink/10 md:grid-cols-2">
-            <div className="md:border-r md:border-ink/10">
+            <div className="min-w-0 md:border-r md:border-ink/10">
               <LeaningDial leaning={outlet.leaning} sources={sources} />
             </div>
-            <div className="border-t border-ink/10 md:border-t-0">
+            <div className="min-w-0 border-t border-ink/10 md:border-t-0">
               <ReliabilityMeter
                 reliability={outlet.reliability}
                 sources={sources}
@@ -457,7 +457,7 @@ function Dossier({ result }: { result: SourceIntelResult }) {
 
           {/* Dossier cells */}
           <div className="grid md:grid-cols-2">
-            <div className="p-5 sm:p-6 md:border-r md:border-ink/10">
+            <div className="min-w-0 p-5 sm:p-6 md:border-r md:border-ink/10">
               <NoteBlock
                 label="Ownership"
                 note={outlet.ownership}
@@ -465,7 +465,7 @@ function Dossier({ result }: { result: SourceIntelResult }) {
               />
             </div>
 
-            <div className="border-t border-ink/10 p-5 sm:p-6 md:border-t-0">
+            <div className="min-w-0 border-t border-ink/10 p-5 sm:p-6 md:border-t-0">
               <NoteBlock
                 label="Follow the money"
                 note={outlet.funding}
@@ -485,7 +485,7 @@ function Dossier({ result }: { result: SourceIntelResult }) {
               </div>
             </div>
 
-            <div className="border-t border-ink/10 p-5 sm:p-6 md:border-r">
+            <div className="min-w-0 border-t border-ink/10 p-5 sm:p-6 md:border-r">
               <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-ink/35">
                 The author
               </p>
@@ -511,14 +511,14 @@ function Dossier({ result }: { result: SourceIntelResult }) {
                   />
                 </>
               ) : (
-                <p className="mt-1.5 text-sm leading-relaxed text-ink/50">
+                <p className="mt-1.5 text-sm leading-relaxed text-ink/45">
                   No individual byline — Prism couldn&apos;t identify a single
                   author to profile.
                 </p>
               )}
             </div>
 
-            <div className="border-t border-ink/10 p-5 sm:p-6">
+            <div className="min-w-0 border-t border-ink/10 p-5 sm:p-6">
               <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-ink/35">
                 The paper trail
               </p>
@@ -530,10 +530,10 @@ function Dossier({ result }: { result: SourceIntelResult }) {
                         key={row.k}
                         className="flex items-baseline justify-between gap-3 py-2"
                       >
-                        <dt className="text-xs uppercase tracking-[0.14em] text-ink/40">
+                        <dt className="text-xs uppercase tracking-[0.2em] text-ink/40">
                           {row.k}
                         </dt>
-                        <dd className="text-right text-sm font-medium">
+                        <dd className="min-w-0 break-words text-right text-sm font-medium tabular-nums">
                           {row.v}
                         </dd>
                       </div>
@@ -554,7 +554,7 @@ function Dossier({ result }: { result: SourceIntelResult }) {
                   ))}
                 </>
               ) : (
-                <p className="mt-1.5 text-sm leading-relaxed text-ink/50">
+                <p className="mt-1.5 text-sm leading-relaxed text-ink/45">
                   Registry and hosting lookups returned nothing for this domain.
                 </p>
               )}

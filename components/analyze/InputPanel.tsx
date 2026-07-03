@@ -31,13 +31,13 @@ export default function InputPanel({
       <div aria-hidden className="bg-blueprint pointer-events-none absolute inset-0" />
 
       <motion.div
-        initial={reduce ? false : { opacity: 0, y: 16 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: EASE_OUT }}
         className="relative mx-auto w-full max-w-2xl"
       >
         <div className="mb-10 text-center">
-          <p className="text-xs font-medium uppercase tracking-[0.3em] text-accent">
+          <p className="text-xs font-medium uppercase tracking-[0.25em] text-accent">
             Refract a story
           </p>
           <h1 className="mt-4 text-balance text-4xl font-bold leading-[1.03] tracking-tightest sm:text-5xl">
@@ -115,7 +115,7 @@ export default function InputPanel({
                   type="button"
                   onClick={onSubmit}
                   disabled={!canSubmit}
-                  className="group inline-flex items-center gap-2 bg-accent px-8 py-3.5 text-base font-medium text-paper transition-colors duration-200 hover:bg-ink disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-accent"
+                  className="group inline-flex items-center gap-2 bg-accent px-8 py-4 text-base font-medium text-paper transition-colors duration-200 ease-swiss hover:bg-ink disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-accent"
                 >
                   Refract
                   <span

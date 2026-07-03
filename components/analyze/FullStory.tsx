@@ -149,12 +149,12 @@ function LoadingState() {
       <div className="space-y-4 opacity-40">
         <div className="border border-ink/10 p-6">
           <div className="h-6 w-64 animate-pulse rounded-sm bg-ink/10" />
-          <div className="mt-4 h-2.5 w-full animate-pulse rounded-full bg-ink/[0.07]" />
+          <div className="mt-4 h-2.5 w-full animate-pulse rounded-full bg-ink/[0.06]" />
         </div>
         {[0, 1, 2].map((i) => (
           <div key={i} className="border border-ink/10 p-6">
             <div className="h-4 w-20 animate-pulse rounded-sm bg-ink/10" />
-            <div className="mt-3 h-4 w-4/5 animate-pulse rounded-sm bg-ink/[0.08]" />
+            <div className="mt-3 h-4 w-4/5 animate-pulse rounded-sm bg-ink/[0.06]" />
             <div className="mt-2 h-3 w-3/5 animate-pulse rounded-sm bg-ink/[0.06]" />
           </div>
         ))}
@@ -180,7 +180,7 @@ function ErrorState({
       exit={{ opacity: 0 }}
       className="mt-10 flex flex-col items-center gap-4 border border-ink/10 px-6 py-12 text-center"
     >
-      <p className="text-xs font-medium uppercase tracking-[0.2em] text-danger">
+      <p className="text-xs font-medium uppercase tracking-[0.25em] text-danger">
         The comparison didn&apos;t go through
       </p>
       <p className="max-w-md text-sm text-ink/60">
@@ -189,7 +189,7 @@ function ErrorState({
       <button
         type="button"
         onClick={onRetry}
-        className="bg-ink px-6 py-3 text-sm font-medium text-paper transition-colors hover:bg-accent"
+        className="bg-ink px-6 py-3 text-sm font-medium text-paper transition-colors duration-200 ease-swiss hover:bg-accent"
       >
         Try again
       </button>
@@ -294,7 +294,7 @@ function Reckoning({ result }: { result: FullStoryResult }) {
 
           {/* The checklist — the fuller picture, point by point. */}
           {result.points.length > 0 ? (
-            <ul className="divide-y divide-ink/[0.08]">
+            <ul className="divide-y divide-ink/[0.06]">
               {result.points.map((point, i) => {
                 const meta = COVERAGE_META[point.status];
                 return (
@@ -336,7 +336,7 @@ function Reckoning({ result }: { result: FullStoryResult }) {
           {/* Framing — the same event, two characterizations. */}
           {result.framing && (
             <div className="grid border-t border-ink/10 md:grid-cols-2">
-              <div className="p-5 sm:p-6 md:border-r md:border-ink/10">
+              <div className="min-w-0 p-5 sm:p-6 md:border-r md:border-ink/10">
                 <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-ink/35">
                   How this article tells it
                 </p>
@@ -344,7 +344,7 @@ function Reckoning({ result }: { result: FullStoryResult }) {
                   {result.framing.article}
                 </p>
               </div>
-              <div className="border-t border-ink/10 p-5 sm:p-6 md:border-t-0">
+              <div className="min-w-0 border-t border-ink/10 p-5 sm:p-6 md:border-t-0">
                 <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-ink/35">
                   How other outlets tell it
                 </p>

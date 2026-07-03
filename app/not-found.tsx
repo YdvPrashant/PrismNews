@@ -4,7 +4,7 @@ import Link from "next/link";
 // global <Header /> arrives via the root layout.
 export default function NotFound() {
   return (
-    <main className="relative flex min-h-[calc(100vh-3.5rem)] flex-col items-center justify-center px-6 text-center">
+    <main className="relative flex min-h-[calc(100vh-3.5rem)] flex-col items-center justify-center px-6 pb-14 text-center">
       <div
         aria-hidden
         className="bg-blueprint pointer-events-none absolute inset-0"
@@ -19,7 +19,7 @@ export default function NotFound() {
       >
         404
       </p>
-      <h1 className="relative mt-4 text-3xl font-bold tracking-tightest sm:text-4xl">
+      <h1 className="relative mt-4 text-3xl font-bold leading-tight tracking-tightest sm:text-4xl">
         This angle doesn&apos;t exist.
       </h1>
       <p className="relative mt-4 max-w-md text-base text-ink/60">

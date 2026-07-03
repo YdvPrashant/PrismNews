@@ -167,7 +167,7 @@ export default function AnalyzeApp() {
           />
 
           <motion.div
-            initial={reduce ? false : { opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: EASE_OUT }}
             className="relative"
@@ -193,9 +193,11 @@ export default function AnalyzeApp() {
                 {/* The row height must be a DEFINITE track (grid-rows-[56vh]), not
                     h-[56vh] on the container: an auto row grows to a long article's
                     full height, the overflow-hidden card clips it, and the panes'
-                    internal scrolling never engages. min-h-0 lets panes shrink. */}
+                    internal scrolling never engages. min-h-0 lets panes shrink;
+                    min-w-0 keeps the mobile single column from growing to an
+                    unbroken URL's width and clipping at the card edge. */}
                 <div className="grid md:grid-cols-12 md:grid-rows-[56vh]">
-                  <div className="min-h-0 md:col-span-5 md:border-r md:border-ink/10">
+                  <div className="min-h-0 min-w-0 md:col-span-5 md:border-r md:border-ink/10">
                     <SourcePanel
                       value={input}
                       onChange={setInput}
@@ -206,7 +208,7 @@ export default function AnalyzeApp() {
                       article={article}
                     />
                   </div>
-                  <div className="min-h-0 md:col-span-7">
+                  <div className="min-h-0 min-w-0 md:col-span-7">
                     <ArticlePreview article={article} text={analyzedText || input} />
                   </div>
                 </div>
@@ -220,16 +222,16 @@ export default function AnalyzeApp() {
           {error && (
             <div
               role="alert"
-              className="relative mx-auto mt-8 flex w-full max-w-md flex-col items-center gap-3 border border-ink/10 bg-paper px-6 py-6 text-center"
+              className="relative mx-auto mt-8 flex w-full max-w-md flex-col items-center gap-4 border border-ink/10 bg-paper px-6 py-6 text-center"
             >
-              <p className="text-xs font-medium uppercase tracking-[0.2em] text-danger">
+              <p className="text-xs font-medium uppercase tracking-[0.25em] text-danger">
                 The beam didn&apos;t make it through
               </p>
               <p className="text-sm text-ink/60">{error}</p>
               <button
                 type="button"
                 onClick={run}
-                className="mt-1 bg-ink px-6 py-3 text-sm font-medium text-paper transition-colors hover:bg-accent"
+                className="mt-1 bg-ink px-6 py-3 text-sm font-medium text-paper transition-colors duration-200 ease-swiss hover:bg-accent"
               >
                 Try again
               </button>
@@ -288,18 +290,18 @@ export default function AnalyzeApp() {
                       {[0, 1, 2, 3].map((i) => (
                         <div
                           key={i}
-                          className="h-6 w-full animate-pulse rounded-sm bg-ink/[0.07]"
+                          className="h-6 w-full animate-pulse rounded-sm bg-ink/[0.06]"
                         />
                       ))}
                     </div>
-                    <div className="mt-8 h-28 w-full animate-pulse rounded-sm bg-ink/[0.05]" />
+                    <div className="mt-8 h-28 w-full animate-pulse rounded-sm bg-ink/[0.06]" />
                   </div>
                   <div className="md:col-span-7">
                     <div className="space-y-3">
                       {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
                         <div
                           key={i}
-                          className="h-4 animate-pulse rounded-sm bg-ink/[0.07]"
+                          className="h-4 animate-pulse rounded-sm bg-ink/[0.06]"
                           style={{ width: `${70 + ((i * 13) % 30)}%` }}
                         />
                       ))}

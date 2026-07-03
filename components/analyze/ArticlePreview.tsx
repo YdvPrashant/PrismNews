@@ -42,7 +42,7 @@ export default function ArticlePreview({
           {article?.title ?? "Your text"}
         </h3>
         {meta.length > 0 && (
-          <p className="mt-1.5 text-xs text-ink/50">{meta.join("  ·  ")}</p>
+          <p className="mt-1.5 text-xs text-ink/50">{meta.join(" · ")}</p>
         )}
         {article?.url && (
           <a
@@ -63,7 +63,7 @@ export default function ArticlePreview({
         >
           {text.split(/\n{2,}/).map((para, i) =>
             para.trim() ? (
-              <p key={i} className="mb-4 whitespace-pre-wrap">
+              <p key={i} className="mb-4 whitespace-pre-wrap break-words">
                 {para.trim()}
               </p>
             ) : null,

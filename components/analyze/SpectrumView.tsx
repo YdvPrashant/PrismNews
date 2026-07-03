@@ -21,7 +21,7 @@ export default function SpectrumView({ result }: { result: AnalysisResult }) {
       transition={{ duration: 0.6, ease: EASE_OUT }}
       className="mt-10 grid items-start gap-10 md:grid-cols-12 md:gap-12"
     >
-      <div className="md:col-span-5">
+      <div className="min-w-0 md:col-span-5">
         <ProportionBar
           segments={result.segments}
           scores={result.scores}
@@ -34,7 +34,7 @@ export default function SpectrumView({ result }: { result: AnalysisResult }) {
           </p>
         )}
       </div>
-      <div className="md:col-span-7">
+      <div className="min-w-0 md:col-span-7">
         <Transcript segments={result.segments} active={active} />
       </div>
 

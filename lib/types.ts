@@ -9,6 +9,11 @@ export type Category = "claim" | "opinion" | "bs" | "neutral";
 
 export const CATEGORIES: Category[] = ["claim", "opinion", "bs", "neutral"];
 
+// Fact-check cost bound — how many of the most substantial claims get verified
+// per article. Shared with the UI (components/analyze/FactCheck.tsx) so the
+// idle-state copy can't drift from the engine (lib/factcheck.ts).
+export const MAX_CLAIMS = 6;
+
 // One classified sentence. `text` is the exact original text (incl. its trailing
 // whitespace) so the transcript reproduces the article verbatim.
 export interface Segment {

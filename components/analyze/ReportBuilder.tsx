@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { EASE_OUT } from "@/components/brand";
 import SpectrumRule from "@/components/SpectrumRule";
 import CornerMarks from "@/components/CornerMarks";
@@ -52,7 +52,6 @@ export default function ReportBuilder({
   checked: Record<ReportSectionKey, boolean>;
   onToggle: (key: ReportSectionKey) => void;
 }) {
-  const reduce = useReducedMotion();
   const included = effectiveSelection(checked, states);
   const selectedCount = REPORT_SECTIONS.filter((m) => included[m.key]).length;
 
@@ -73,8 +72,8 @@ export default function ReportBuilder({
       />
 
       <motion.div
-        initial={reduce ? false : { opacity: 0, y: 12 }}
-        whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, ease: EASE_OUT }}
         className="relative mt-10"
@@ -101,7 +100,7 @@ export default function ReportBuilder({
                     aria-checked={isOn}
                     aria-disabled={!state.available || undefined}
                     onClick={() => state.available && onToggle(meta.key)}
-                    className={`flex w-full items-start gap-4 px-4 py-4 text-left transition-colors sm:px-6 ${
+                    className={`flex w-full items-start gap-4 px-4 py-4 text-left transition-colors duration-200 sm:px-6 ${
                       state.available
                         ? "hover:bg-ink/[0.03]"
                         : "cursor-not-allowed opacity-40"
@@ -126,7 +125,7 @@ export default function ReportBuilder({
                         <span className="text-xs tabular-nums text-ink/35">
                           {meta.ref}
                         </span>
-                        <span className="text-sm font-semibold uppercase tracking-[0.14em]">
+                        <span className="text-sm font-semibold uppercase tracking-[0.2em]">
                           {meta.label}
                         </span>
                       </span>

@@ -28,7 +28,7 @@ export default function Transcript({
         <p className="text-xs font-medium uppercase tracking-[0.25em] text-ink/40">
           Transcript
         </p>
-        <p className="text-[10px] uppercase tracking-[0.18em] text-ink/35">
+        <p className="text-[10px] uppercase tracking-[0.2em] text-ink/35">
           <span className="tabular-nums">{segments.length}</span> sentences
         </p>
       </div>

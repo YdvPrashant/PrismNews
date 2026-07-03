@@ -63,7 +63,7 @@ export default function HowItWorks() {
   return (
     <section
       id="how-it-works"
-      className="mx-auto w-full max-w-grid scroll-mt-24 px-6 py-28 md:py-40"
+      className="mx-auto w-full max-w-grid scroll-mt-24 px-6 py-20 md:py-24"
     >
       <div className="grid gap-12 md:grid-cols-12">
         <motion.div
@@ -87,7 +87,7 @@ export default function HowItWorks() {
         <motion.div
           {...reveal}
           transition={{ duration: 0.7, delay: 0.1, ease: EASE_OUT }}
-          className="md:col-span-7 md:col-start-6"
+          className="md:col-span-6 md:col-start-7"
         >
           <p className="text-balance text-xl leading-relaxed text-ink/80 sm:text-2xl">
             Paste a single article. Prism runs it through five readings — each
@@ -132,7 +132,7 @@ export default function HowItWorks() {
                   {s.chips.map((c) => (
                     <span
                       key={c}
-                      className="border border-ink/15 px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.18em] text-ink/45"
+                      className="border border-ink/15 px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.2em] text-ink/45"
                     >
                       {c}
                     </span>

@@ -17,6 +17,15 @@
     html {
       scroll-behavior: auto;
     }
+
+    /* Looping motion must respect the OS flag (brand motion policy). Tailwind's
+       animate-pulse drives the loading skeletons + the busy status dot; killing
+       the keyframes here covers every occurrence in one rule. Framer entrances
+       are JS-driven (not the CSS `animation` property), so they still play —
+       matching the "one-time entrances for everyone" policy. */
+    .animate-pulse {
+      animation: none !important;
+    }
   }
 
   body {

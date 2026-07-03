@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { EASE_OUT } from "@/components/brand";
-import type { FactCheckResult, Verdict } from "@/lib/types";
+import { MAX_CLAIMS, type FactCheckResult, type Verdict } from "@/lib/types";
 import { VERDICT_META, VERDICT_ORDER } from "./verdicts";
 import SectionHead from "./SectionHead";
 import ScanOverlay from "./ScanOverlay";
@@ -104,7 +104,7 @@ function IdleState({
         <p className="text-5xl font-bold tracking-tight">{claimCount}</p>
         <p className="mt-2 text-sm text-ink/60">
           checkable {claimCount === 1 ? "claim" : "claims"} found
-          {claimCount > 6 && " — the 6 most substantial will be checked"}.
+          {claimCount > MAX_CLAIMS && ` — the ${MAX_CLAIMS} most substantial will be checked`}.
         </p>
         <p className="mt-1 text-xs text-ink/40">
           Runs one live web search per claim — that&apos;s why it&apos;s on demand.
@@ -139,7 +139,7 @@ function LoadingState() {
         {[0, 1, 2].map((i) => (
           <div key={i} className="border border-ink/10 p-6">
             <div className="h-3 w-24 animate-pulse rounded-sm bg-ink/10" />
-            <div className="mt-4 h-5 w-3/4 animate-pulse rounded-sm bg-ink/[0.09]" />
+            <div className="mt-4 h-5 w-3/4 animate-pulse rounded-sm bg-ink/[0.06]" />
             <div className="mt-3 h-3 w-full animate-pulse rounded-sm bg-ink/[0.06]" />
           </div>
         ))}
@@ -165,7 +165,7 @@ function ErrorState({
       exit={{ opacity: 0 }}
       className="mt-10 flex flex-col items-center gap-4 border border-ink/10 px-6 py-12 text-center"
     >
-      <p className="text-xs font-medium uppercase tracking-[0.2em] text-danger">
+      <p className="text-xs font-medium uppercase tracking-[0.25em] text-danger">
         The check didn&apos;t go through
       </p>
       <p className="max-w-md text-sm text-ink/60">
@@ -174,7 +174,7 @@ function ErrorState({
       <button
         type="button"
         onClick={onRetry}
-        className="bg-ink px-6 py-3 text-sm font-medium text-paper transition-colors hover:bg-accent"
+        className="bg-ink px-6 py-3 text-sm font-medium text-paper transition-colors duration-200 ease-swiss hover:bg-accent"
       >
         Try again
       </button>

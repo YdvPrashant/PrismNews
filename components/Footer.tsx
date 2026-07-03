@@ -16,7 +16,7 @@ export default function Footer() {
             <path
               d="M12 4 L4 20 L20 20 Z"
               stroke="currentColor"
-              strokeWidth="2.4"
+              strokeWidth="2"
               strokeLinejoin="round"
             />
           </svg>

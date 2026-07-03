@@ -48,7 +48,7 @@ export default function SourcePanel({
         <p className="text-xs font-medium uppercase tracking-[0.25em] text-accent">
           Source
         </p>
-        <span className="inline-flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-[0.18em] text-ink/45">
+        <span className="inline-flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-[0.2em] text-ink/45">
           <span
             aria-hidden
             className={`h-1.5 w-1.5 rounded-full ${state.dot} ${state.pulse ? "animate-pulse" : ""}`}
@@ -77,7 +77,7 @@ export default function SourcePanel({
           type="button"
           onClick={onSubmit}
           disabled={!canSubmit}
-          className="inline-flex items-center gap-2 bg-ink px-6 py-3 text-sm font-medium text-paper transition-colors duration-200 hover:bg-accent disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-ink"
+          className="inline-flex items-center gap-2 bg-ink px-6 py-3 text-sm font-medium text-paper transition-colors duration-200 ease-swiss hover:bg-accent disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-ink"
         >
           {busy ? "Refracting…" : "Re-run"}
         </button>
@@ -93,7 +93,7 @@ export default function SourcePanel({
             key={m.k}
             className="flex items-baseline justify-between gap-3 py-2.5"
           >
-            <dt className="text-xs uppercase tracking-[0.18em] text-ink/40">
+            <dt className="text-xs uppercase tracking-[0.2em] text-ink/40">
               {m.k}
             </dt>
             <dd className="text-sm font-medium tabular-nums">{m.v}</dd>

@@ -2,19 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { EASE_OUT } from "./brand";
 
 // Global top bar — a sticky hairline rail. Exactly h-14 (3.5rem): the tool's
 // "fill the viewport below the header" math depends on that height.
 export default function Header() {
   const pathname = usePathname();
-  const reduce = useReducedMotion();
   const onTool = pathname?.startsWith("/get-started") ?? false;
 
   return (
     <motion.header
-      initial={reduce ? false : { opacity: 0, y: -8 }}
+      initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: EASE_OUT }}
       className="sticky top-0 z-50 border-b border-ink/10 bg-paper/90 backdrop-blur-sm print:hidden"
@@ -24,12 +23,12 @@ export default function Header() {
           <Link
             href="/"
             aria-label="Prism — home"
-            className="flex items-center gap-2 transition-opacity hover:opacity-70"
+            className="flex items-center gap-2 transition-opacity duration-200 ease-swiss hover:opacity-70"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
               <path
                 d="M12 4 L4 20 L20 20 Z"
-                stroke="#0A0A0A"
+                stroke="currentColor"
                 strokeWidth="2"
                 strokeLinejoin="round"
               />
@@ -48,20 +47,20 @@ export default function Header() {
               a 375px phone; the hero's own "How it works ↓" covers mobile. */}
           <Link
             href="/#how-it-works"
-            className="hidden text-[11px] font-medium uppercase tracking-[0.18em] text-ink/50 transition-colors hover:text-ink sm:block"
+            className="hidden text-[11px] font-medium uppercase tracking-[0.2em] text-ink/50 transition-colors duration-200 ease-swiss hover:text-ink sm:block"
           >
             How it works
           </Link>
           <Link
             href="/#about"
-            className="text-[11px] font-medium uppercase tracking-[0.18em] text-ink/50 transition-colors hover:text-ink"
+            className="text-[11px] font-medium uppercase tracking-[0.2em] text-ink/50 transition-colors duration-200 ease-swiss hover:text-ink"
           >
             Manifesto
           </Link>
           <Link
             href="/get-started"
             aria-current={onTool ? "page" : undefined}
-            className={`px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors ${
+            className={`px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] transition-colors duration-200 ease-swiss ${
               onTool
                 ? "border border-ink/20 text-ink/60"
                 : "bg-ink text-paper hover:bg-accent"

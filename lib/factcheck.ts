@@ -9,6 +9,7 @@
 
 import Groq from "groq-sdk";
 import {
+  MAX_CLAIMS,
   VERDICTS,
   type ClaimCheck,
   type Confidence,
@@ -18,7 +19,6 @@ import {
 } from "./types";
 
 const MODEL = "llama-3.3-70b-versatile";
-const MAX_CLAIMS = 6; // bound cost/latency — check the most substantial claims
 const RESULTS_PER_CLAIM = 5;
 const CONCURRENCY = 3;
 const MIN_CLAIM_CHARS = 25; // skip trivially short "claims"
