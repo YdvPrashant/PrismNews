@@ -19,8 +19,12 @@ let client: Redis | null | undefined;
 
 function getClient(): Redis | null {
   if (client !== undefined) return client;
-  const url = process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  // Accept BOTH the Upstash-native names and Vercel KV's KV_REST_API_* names, so
+  // caching works no matter which Redis integration is added on Vercel.
+  const url =
+    process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL;
+  const token =
+    process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
   client = url && token ? new Redis({ url, token }) : null;
   return client;
 }

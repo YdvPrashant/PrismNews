@@ -21,8 +21,11 @@ let limiter: Ratelimit | null | undefined;
 
 function getLimiter(): Ratelimit | null {
   if (limiter !== undefined) return limiter;
-  const url = process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  // Accept BOTH the Upstash-native names and Vercel KV's KV_REST_API_* names.
+  const url =
+    process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL;
+  const token =
+    process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
   if (!url || !token) {
     limiter = null;
     return null;
