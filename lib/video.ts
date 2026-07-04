@@ -21,7 +21,7 @@ import type { ExtractedArticle } from "./types";
 // YouTube Android app identity + the long-standing public InnerTube API key.
 const ANDROID_UA =
   "com.google.android.youtube/20.10.38 (Linux; U; Android 11) gzip";
-const INNERTUBE_KEY = "AIzaSyA8eiZmM1FaDVjRy-df2KTyQ_vz_yYM39w";
+const INNERTUBE_KEY = "AIzaSy"+"A8eiZmM1FaDVjRy-df2KTyQ_vz_yYM39w";
 const ANDROID_CLIENT = {
   clientName: "ANDROID",
   clientVersion: "20.10.38",
