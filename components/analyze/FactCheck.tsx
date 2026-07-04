@@ -104,7 +104,8 @@ function IdleState({
         <p className="text-5xl font-bold tracking-tight">{claimCount}</p>
         <p className="mt-2 text-sm text-ink/60">
           checkable {claimCount === 1 ? "claim" : "claims"} found
-          {claimCount > MAX_CLAIMS && ` — the ${MAX_CLAIMS} most substantial will be checked`}.
+          {claimCount > MAX_CLAIMS &&
+            ` — the ${MAX_CLAIMS} most central, checkable ones will be checked`}.
         </p>
         <p className="mt-1 text-xs text-ink/40">
           Runs one live web search per claim — that&apos;s why it&apos;s on demand.

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { friendlyError } from "@/lib/errors";
 import { classifyArticle } from "@/lib/analyze";
+import { cacheKey, getCached, setCached } from "@/lib/cache";
+import type { AnalysisResult } from "@/lib/types";
 
 // Groq call + sentence work needs the Node runtime and some headroom.
 export const runtime = "nodejs";
@@ -29,8 +31,15 @@ export async function POST(req: Request) {
     );
   }
 
+  const trimmed = text.trim();
+  const key = cacheKey("analyze", trimmed);
+  const cached = await getCached<AnalysisResult>(key);
+  if (cached) return NextResponse.json(cached);
+
   try {
-    const result = await classifyArticle(text.trim());
+    const result = await classifyArticle(trimmed);
+    // 7d — classification runs at temperature 0, so it's stable per text.
+    await setCached(key, result, 60 * 60 * 24 * 7);
     return NextResponse.json(result);
   } catch (err) {
     return NextResponse.json(

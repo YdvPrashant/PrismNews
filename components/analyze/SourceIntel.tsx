@@ -49,6 +49,7 @@ export default function SourceIntel({
       return null;
     }
   })();
+  const isVideo = article?.kind === "video";
 
   async function run() {
     if (status === "loading" || !article) return;
@@ -91,6 +92,16 @@ export default function SourceIntel({
           </>
         }
       />
+
+      {isVideo && (
+        <p className="mt-4 max-w-2xl text-xs leading-relaxed text-ink/45">
+          This is a video. Prism profiles the{" "}
+          <span className="text-ink/70">creator&apos;s channel</span> as the
+          source; the registration &amp; hosting trail describes{" "}
+          <span className="text-ink/70">YouTube</span>, the platform it&apos;s
+          published on.
+        </p>
+      )}
 
       <AnimatePresence mode="wait">
         {!article || !domain ? (

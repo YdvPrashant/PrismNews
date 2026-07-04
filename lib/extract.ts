@@ -67,5 +67,6 @@ export async function extractArticle(url: string): Promise<ExtractedArticle> {
     source: source ?? undefined,
     publishedDate: data.published ?? undefined,
     text,
+    kind: "article",
   };
 }

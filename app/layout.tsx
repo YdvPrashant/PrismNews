@@ -20,7 +20,7 @@ const SITE_URL =
 
 const TITLE = "Prism — See every angle of the story";
 const DESCRIPTION =
-  "Paste one article and Prism refracts it — every sentence classified as claim, opinion, or rhetoric; the outlet's ownership, funding, and lean traced; claims fact-checked against live sources; the coverage compared against every other outlet's.";
+  "Paste an article or a video link and Prism refracts it — every sentence classified as claim, opinion, or rhetoric; the outlet's ownership, funding, and lean traced; claims fact-checked against live sources; the coverage compared against every other outlet's.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

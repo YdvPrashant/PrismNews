@@ -28,15 +28,20 @@ export default function ArticlePreview({
     return () => ro.disconnect();
   }, [text, article]);
 
+  const isVideo = article?.kind === "video";
   const meta = article
-    ? [article.source, article.author, article.publishedDate].filter(Boolean)
+    ? isVideo
+      ? [article.platform === "youtube" ? "YouTube" : "Video", article.source].filter(
+          Boolean,
+        )
+      : [article.source, article.author, article.publishedDate].filter(Boolean)
     : ["Pasted text"];
 
   return (
     <div className="flex h-full flex-col">
       <div className="border-b border-ink/10 p-5 sm:p-6">
         <p className="text-xs font-medium uppercase tracking-[0.25em] text-accent">
-          Preview
+          {isVideo ? "Transcript" : "Preview"}
         </p>
         <h3 className="mt-3 text-balance text-lg font-bold leading-snug tracking-tight">
           {article?.title ?? "Your text"}

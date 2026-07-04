@@ -34,11 +34,19 @@ Guidance:
 - Reserve "bs" for manipulative or empty rhetoric. Do NOT mark something "bs" merely because you disagree with it or because it is an opinion — an honest opinion is "opinion".
 - When a sentence states a concrete verifiable fact, prefer "claim" even if the surrounding tone is charged.
 
+For every "claim", ALSO rate its salience — how much it is worth fact-checking — as an integer 0–3:
+- 3: load-bearing to the story AND concretely checkable — a specific fact, statistic, dated event, or named-entity assertion the article's point rests on.
+- 2: checkable and clearly relevant, but not the crux of the piece.
+- 1: checkable but minor or peripheral — incidental detail or background.
+- 0: too vague or generic to verify meaningfully.
+For every sentence that is NOT a "claim", set salience to 0.
+
 Return STRICT JSON only, no prose.`;
 
 interface Classification {
   category: Category;
   reason?: string;
+  salience?: number; // 0–3, meaningful only for `claim` (see SYSTEM_PROMPT)
 }
 
 function getClient(): Groq {
@@ -55,6 +63,14 @@ function isCategory(value: unknown): value is Category {
   return typeof value === "string" && (CATEGORIES as string[]).includes(value);
 }
 
+// Coerce the model's salience to an int in [0, 3]; undefined if it's not a
+// usable number (the ranking then falls back to the concreteness heuristic).
+function clampSalience(value: unknown): number | undefined {
+  if (typeof value !== "number" || !Number.isFinite(value)) return undefined;
+  const n = Math.round(value);
+  return n < 0 ? 0 : n > 3 ? 3 : n;
+}
+
 // Classify one batch. `offset` is the global index of the batch's first sentence,
 // so returned indices line up with the full article.
 async function classifyBatch(
@@ -66,7 +82,7 @@ async function classifyBatch(
 
   const userContent =
     `Classify each sentence below. Return JSON of the exact shape:\n` +
-    `{"classifications":[{"index":<int>,"category":"claim|opinion|bs|neutral","reason":"<max 12 words>"}]}\n` +
+    `{"classifications":[{"index":<int>,"category":"claim|opinion|bs|neutral","salience":<int 0-3>,"reason":"<max 12 words>"}]}\n` +
     `Include every index exactly once.\n\nSentences:\n` +
     JSON.stringify(payload);
 
@@ -95,11 +111,15 @@ async function classifyBatch(
 
   for (const item of list) {
     if (!item || typeof item !== "object") continue;
-    const { index, category, reason } = item as Record<string, unknown>;
+    const { index, category, reason, salience } = item as Record<
+      string,
+      unknown
+    >;
     if (typeof index !== "number" || !isCategory(category)) continue;
     result.set(index, {
       category,
       reason: typeof reason === "string" ? reason : undefined,
+      salience: clampSalience(salience),
     });
   }
 
@@ -156,10 +176,14 @@ export async function classifyArticle(text: string): Promise<AnalysisResult> {
 
   const segments: Segment[] = sentences.map((sentence, i) => {
     const c = classified.get(i);
+    const category = c?.category ?? "neutral";
     return {
       text: sentence,
-      category: c?.category ?? "neutral",
+      category,
       reason: c?.reason,
+      // Only claims carry salience; default a claim with no score to 0 so the
+      // concreteness tiebreaker (client-side) still orders it.
+      salience: category === "claim" ? c?.salience ?? 0 : undefined,
     };
   });
 

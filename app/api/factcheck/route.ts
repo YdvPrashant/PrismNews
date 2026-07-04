@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { friendlyError } from "@/lib/errors";
 import { factCheckClaims } from "@/lib/factcheck";
+import { cacheKey, getCached, setCached } from "@/lib/cache";
+import type { FactCheckResult } from "@/lib/types";
 
 // Web search + several Groq calls — needs the Node runtime and headroom.
 export const runtime = "nodejs";
@@ -42,8 +44,18 @@ export async function POST(req: Request) {
     );
   }
 
+  // Cache on the claim SET (order-independent) so re-checks of the same article
+  // don't re-run web searches. factCheckClaims still caps inside via selectClaims.
+  const keyInput = JSON.stringify(
+    (claims as string[]).map((c) => c.replace(/\s+/g, " ").trim()).sort(),
+  );
+  const key = cacheKey("factcheck", keyInput);
+  const cached = await getCached<FactCheckResult>(key);
+  if (cached) return NextResponse.json(cached);
+
   try {
     const result = await factCheckClaims(claims as string[]);
+    await setCached(key, result, 60 * 60 * 12); // 12h — web sources age
     return NextResponse.json(result);
   } catch (err) {
     return NextResponse.json(

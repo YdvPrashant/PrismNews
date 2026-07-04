@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { friendlyError } from "@/lib/errors";
 import { isValidUrl } from "@/lib/extract";
 import { investigateSource } from "@/lib/sourceintel";
+import { cacheKey, getCached, setCached } from "@/lib/cache";
+import type { SourceIntelResult } from "@/lib/types";
 
 // Registry lookups + web search + a Groq call — Node runtime with headroom.
 export const runtime = "nodejs";
@@ -44,12 +46,19 @@ export async function POST(req: Request) {
     );
   }
 
+  const authorHint = typeof author === "string" ? author : "";
+  const outletHint = typeof outletName === "string" ? outletName : "";
+  const key = cacheKey("sourceintel", `${url}|${authorHint}|${outletHint}`);
+  const cached = await getCached<SourceIntelResult>(key);
+  if (cached) return NextResponse.json(cached);
+
   try {
     const result = await investigateSource(
       url,
       typeof author === "string" ? author : undefined,
       typeof outletName === "string" ? outletName : undefined,
     );
+    await setCached(key, result, 60 * 60 * 24 * 7); // 7d
     return NextResponse.json(result);
   } catch (err) {
     return NextResponse.json(

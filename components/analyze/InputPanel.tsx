@@ -17,7 +17,7 @@ export default function InputPanel({
   value: string;
   onChange: (v: string) => void;
   onSubmit: () => void;
-  detected: "url" | "text";
+  detected: "url" | "video" | "text";
   disabled: boolean;
 }) {
   const reduce = useReducedMotion();
@@ -44,8 +44,8 @@ export default function InputPanel({
             Paste a story.
           </h1>
           <p className="mt-4 text-base leading-relaxed text-ink/55">
-            Drop in an article link or the text itself. Prism refracts it into
-            claims, opinions, and rhetoric.
+            Drop in an article link, a YouTube video, or the text itself. Prism
+            refracts it into claims, opinions, and rhetoric.
           </p>
         </div>
 
@@ -61,7 +61,7 @@ export default function InputPanel({
                   htmlFor="prism-input"
                   className="text-xs font-medium uppercase tracking-[0.25em] text-ink/45"
                 >
-                  Link or text
+                  Link, video, or text
                 </label>
 
                 {/* Live detection chip — flips as the field changes. */}
@@ -79,7 +79,11 @@ export default function InputPanel({
                         aria-hidden
                         className="h-1.5 w-1.5 rounded-full bg-ink/50"
                       />
-                      {detected === "url" ? "Link ↗" : "Text ¶"}
+                      {detected === "video"
+                        ? "Video ▷"
+                        : detected === "url"
+                          ? "Link ↗"
+                          : "Text ¶"}
                     </motion.span>
                   )}
                 </AnimatePresence>
@@ -95,7 +99,7 @@ export default function InputPanel({
                   }
                 }}
                 rows={6}
-                placeholder="https://example.com/article  —  or paste the text itself"
+                placeholder="https://example.com/article  ·  a YouTube link  —  or paste the text itself"
                 className="u-scroll mt-4 w-full resize-none border-0 border-b border-ink/15 bg-transparent px-0 py-3 text-lg leading-relaxed text-ink outline-none transition-colors placeholder:text-ink/25 focus:border-ink"
               />
 

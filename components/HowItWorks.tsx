@@ -20,7 +20,7 @@ const STEPS: Step[] = [
     no: "01",
     name: "The Workspace",
     promise: "What exactly am I reading?",
-    body: "Paste a link or the raw text. Prism fetches the article, strips the clutter, and lays the readable text beside your source — so you can see exactly what's being analyzed, correct it, and re-run.",
+    body: "Paste a link, a YouTube video, or the raw text. Prism fetches the article — or pulls the video's transcript — strips the clutter, and lays the readable text beside your source, so you can see exactly what's being analyzed, correct it, and re-run.",
   },
   {
     no: "02",
@@ -90,8 +90,9 @@ export default function HowItWorks() {
           className="md:col-span-6 md:col-start-7"
         >
           <p className="text-balance text-xl leading-relaxed text-ink/80 sm:text-2xl">
-            Paste a single article. Prism runs it through five readings — each
-            answering one question you should be able to ask of any news story.
+            Paste a single article — or a video link. Prism runs it through five
+            readings, each answering one question you should be able to ask of
+            any news story.
           </p>
         </motion.div>
       </div>

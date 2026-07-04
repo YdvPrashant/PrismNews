@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@extractus/article-extractor": "^8.1.0",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.38.0",
     "framer-motion": "^11.11.17",
     "groq-sdk": "^1.3.0",
     "next": "^15.5.19",

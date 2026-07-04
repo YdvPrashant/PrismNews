@@ -20,6 +20,12 @@ export interface Segment {
   text: string;
   category: Category;
   reason?: string;
+  // How central-AND-checkable this claim is, 0–3 (only meaningful for `claim`
+  // segments; absent/0 elsewhere). Fact Check verifies the highest-salience
+  // claims first (ranking happens in AnalyzeApp before the claims are sent).
+  //  3 = load-bearing to the story and concretely verifiable
+  //  2 = checkable and relevant · 1 = checkable but peripheral · 0 = not really
+  salience?: number;
 }
 
 // Per-category weight, measured in characters so the proportion bar and the
@@ -79,7 +85,10 @@ export interface FactCheckResult {
   checkedCount: number; // how many we actually checked (capped)
 }
 
-// Result of pulling an article out of a URL.
+// Result of pulling readable content out of a URL — an article's body, or a
+// video's transcript. Both converge on this one shape so the whole downstream
+// pipeline (analyze, provenance, fact-check, full picture, report) is agnostic
+// to where `text` came from.
 export interface ExtractedArticle {
   url: string;
   title?: string;
@@ -87,6 +96,11 @@ export interface ExtractedArticle {
   source?: string;
   publishedDate?: string;
   text: string;
+  // Where `text` came from. Absent ≡ "article" (keeps existing callers valid).
+  kind?: "article" | "video";
+  // For videos: the host platform, used for labeling and the host-vs-creator
+  // framing in Provenance. YouTube is the only supported platform in Phase 1.
+  platform?: "youtube";
 }
 
 // ---- Provenance (source & author intelligence) ----

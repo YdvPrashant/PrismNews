@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { friendlyError } from "@/lib/errors";
 import { compareCoverage } from "@/lib/fullstory";
+import { cacheKey, getCached, setCached } from "@/lib/cache";
+import type { FullStoryResult } from "@/lib/types";
 
 // Two web searches + two Groq calls — Node runtime with headroom.
 export const runtime = "nodejs";
@@ -45,12 +47,19 @@ export async function POST(req: Request) {
     );
   }
 
+  const titleHint = typeof title === "string" ? title : "";
+  const urlHint = typeof url === "string" ? url : "";
+  const key = cacheKey("fullstory", `${titleHint}|${urlHint}|${text}`);
+  const cached = await getCached<FullStoryResult>(key);
+  if (cached) return NextResponse.json(cached);
+
   try {
     const result = await compareCoverage(
       text,
       typeof title === "string" ? title : undefined,
       typeof url === "string" ? url : undefined,
     );
+    await setCached(key, result, 60 * 60 * 24); // 24h
     return NextResponse.json(result);
   } catch (err) {
     return NextResponse.json(

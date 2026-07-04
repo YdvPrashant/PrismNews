@@ -5,6 +5,8 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { EASE_OUT } from "@/components/brand";
 import SpectrumRule from "@/components/SpectrumRule";
 import CornerMarks from "@/components/CornerMarks";
+import { detectVideoUrl } from "@/lib/video";
+import { claimConcreteness } from "@/lib/claims";
 import type {
   AnalysisResult,
   ExtractedArticle,
@@ -74,13 +76,29 @@ export default function AnalyzeApp() {
     useState<FullStoryResult | null>(null);
   const [reportChecked, setReportChecked] = useState(defaultReportSelection);
 
-  const detected = looksLikeUrl(input) ? "url" : "text";
+  // A recognized video link (supported or not) shows the "Video" affordance; a
+  // YouTube link is transcribed server-side, anything else follows the article/
+  // text paths. detectVideoUrl runs first because a video URL is also a URL.
+  const detected = detectVideoUrl(input)
+    ? "video"
+    : looksLikeUrl(input)
+      ? "url"
+      : "text";
   const busy = status === "extracting" || status === "analyzing";
 
-  // The checkable claims Prism found — fed to the fact-checker on demand.
+  // The checkable claims Prism found — fed to the fact-checker on demand, ranked
+  // most-important-first so the engine's cap (selectClaims → first MAX_CLAIMS)
+  // verifies the claims that matter. Primary key is the model's salience; ties
+  // break on the concreteness heuristic, then document order (sort is stable).
+  // NOTE: this is the ONLY claim-ranking seam — selectClaims stays first-N.
   const claimTexts =
     result?.segments
       .filter((s) => s.category === "claim")
+      .sort(
+        (a, b) =>
+          (b.salience ?? 0) - (a.salience ?? 0) ||
+          claimConcreteness(b.text) - claimConcreteness(a.text),
+      )
       .map((s) => s.text.replace(/\s+/g, " ").trim()) ?? [];
 
   // The report exists once an analysis produced something — an empty analysis
@@ -314,7 +332,9 @@ export default function AnalyzeApp() {
                 <ScanOverlay
                   label={
                     status === "extracting"
-                      ? "Reading the article…"
+                      ? detected === "video"
+                        ? "Pulling the video's transcript…"
+                        : "Reading the article…"
                       : "Classifying every sentence…"
                   }
                 />

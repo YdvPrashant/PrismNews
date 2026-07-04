@@ -17,7 +17,7 @@ export default function SourcePanel({
   value: string;
   onChange: (v: string) => void;
   onSubmit: () => void;
-  detected: "url" | "text";
+  detected: "url" | "video" | "text";
   busy: boolean;
   status: string;
   article: ExtractedArticle | null;
@@ -35,7 +35,10 @@ export default function SourcePanel({
           : { label: "Ready", dot: "bg-ok", pulse: false };
 
   const meta: { k: string; v: string }[] = [
-    { k: "Detected", v: detected === "url" ? "Link" : "Text" },
+    {
+      k: "Detected",
+      v: detected === "video" ? "Video" : detected === "url" ? "Link" : "Text",
+    },
     {
       k: "Length",
       v: article ? `~${words.toLocaleString()} words` : `${words} words`,
@@ -58,7 +61,7 @@ export default function SourcePanel({
       </div>
 
       <label htmlFor="prism-source" className="sr-only">
-        Article link or text
+        Article link, video link, or text
       </label>
       <textarea
         id="prism-source"
