@@ -54,28 +54,6 @@
 }
 
 @layer utilities {
-  /* Faint drafting grid — the tool's "optical bench" surface. Pure hairlines
-     (stays black/white), masked so it dissolves toward the edges. */
-  .bg-blueprint {
-    background-image: linear-gradient(
-        to right,
-        rgb(10 10 10 / 0.035) 1px,
-        transparent 1px
-      ),
-      linear-gradient(to bottom, rgb(10 10 10 / 0.035) 1px, transparent 1px);
-    background-size: 2rem 2rem;
-    -webkit-mask-image: radial-gradient(
-      ellipse 85% 75% at 50% 42%,
-      black 45%,
-      transparent 100%
-    );
-    mask-image: radial-gradient(
-      ellipse 85% 75% at 50% 42%,
-      black 45%,
-      transparent 100%
-    );
-  }
-
   /* Hairline scrollbars for internal reading surfaces (transcript, preview…). */
   .u-scroll {
     scrollbar-width: thin;

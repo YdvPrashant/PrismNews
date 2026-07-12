@@ -1,9 +1,10 @@
 import { SPECTRUM } from "./brand";
 
-// Colophon — spectrum hairline, then a quiet three-column readout.
+// Colophon — spectrum hairline, then a quiet three-column readout. Top padding
+// keeps the hairline off the CtaBand's ink slab directly above it.
 export default function Footer() {
   return (
-    <footer className="mx-auto w-full max-w-grid px-6 pb-12">
+    <footer className="mx-auto w-full max-w-grid px-6 pb-12 pt-12">
       <div className="flex h-[3px] w-full overflow-hidden" aria-hidden>
         {SPECTRUM.map((c) => (
           <span key={c} className="h-full flex-1" style={{ backgroundColor: c }} />

@@ -3,9 +3,8 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { EASE_OUT } from "@/components/brand";
 import SpectrumRule from "@/components/SpectrumRule";
-import CornerMarks from "@/components/CornerMarks";
 
-// The opening screen — a single instrument: one field on an optical-bench grid,
+// The opening screen — a single instrument: one framed field on clean paper,
 // a live link/text detection chip, live counts, and the Refract action.
 export default function InputPanel({
   value,
@@ -26,15 +25,12 @@ export default function InputPanel({
   const words = value.trim().match(/\S+/g)?.length ?? 0;
 
   return (
-    <section className="relative mx-auto flex min-h-[calc(100vh-3.5rem)] w-full max-w-grid flex-col justify-center px-6 py-16">
-      {/* Drafting-grid backdrop — hairlines only, fades at the edges. */}
-      <div aria-hidden className="bg-blueprint pointer-events-none absolute inset-0" />
-
+    <section className="mx-auto flex min-h-[calc(100vh-3.5rem)] w-full max-w-grid flex-col justify-center px-6 py-16">
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: EASE_OUT }}
-        className="relative mx-auto w-full max-w-2xl"
+        className="mx-auto w-full max-w-2xl"
       >
         <div className="mb-10 text-center">
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-accent">
@@ -49,10 +45,8 @@ export default function InputPanel({
           </p>
         </div>
 
-        {/* The instrument — one framed field with registration marks. */}
-        <div className="relative">
-          <CornerMarks />
-          <div className="border border-ink/15 bg-paper">
+        {/* The instrument — one framed field. */}
+        <div className="border border-ink/15 bg-paper">
             <SpectrumRule className="h-[3px]" />
 
             <div className="p-6 sm:p-8">
@@ -131,7 +125,6 @@ export default function InputPanel({
                 </button>
               </div>
             </div>
-          </div>
         </div>
       </motion.div>
     </section>

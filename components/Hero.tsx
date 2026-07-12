@@ -5,8 +5,22 @@ import { motion, useReducedMotion } from "framer-motion";
 import PrismLogo from "./PrismLogo";
 import SpectrumRule from "./SpectrumRule";
 import { EASE_OUT } from "./brand";
+import { CATEGORY_META } from "./analyze/categories";
 
 const LETTERS = ["P", "R", "I", "S", "M"];
+
+// The self-classifying headline (Step 17): the pitch is set the way the tool
+// sets a transcript — each sentence tinted + underlined as what it actually is.
+// Colors come ONLY from the analyze token file; the visible word-label is the
+// non-color channel. The last line flags its own hype as BS on purpose.
+const HEADLINE: { text: string; cat: "claim" | "opinion" | "bs" }[] = [
+  {
+    text: "Prism marks every sentence of the news — claim, opinion, or BS.",
+    cat: "claim",
+  },
+  { text: "The clearest way to read a story.", cat: "opinion" },
+  { text: "You’ll never be fooled again.", cat: "bs" },
+];
 
 export default function Hero() {
   const reduce = useReducedMotion();
@@ -47,16 +61,46 @@ export default function Hero() {
       <motion.p
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.55, ease: EASE_OUT }}
-        className="mt-6 max-w-md text-lg text-ink/60 sm:text-xl"
+        transition={{ duration: 0.7, delay: 0.5, ease: EASE_OUT }}
+        className="mt-8 max-w-2xl text-balance text-xl leading-[1.9] text-ink/90 sm:text-2xl"
       >
-        See every angle of the story.
+        {HEADLINE.map((seg, i) => {
+          const meta = CATEGORY_META[seg.cat];
+          return (
+            <span key={i}>
+              <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{
+                  duration: 0.45,
+                  delay: 0.65 + i * 0.18,
+                  ease: EASE_OUT,
+                }}
+                className="rounded-[2px]"
+                style={{
+                  backgroundColor: meta.tint,
+                  boxShadow: `inset 0 -2px 0 0 ${meta.underline}`,
+                  padding: "0.05em 0.15em",
+                }}
+              >
+                {seg.text}
+                <span
+                  aria-hidden
+                  className="ml-1.5 inline-block -translate-y-[0.55em] text-[9px] font-semibold uppercase tracking-[0.2em]"
+                  style={{ color: meta.text }}
+                >
+                  {meta.label}
+                </span>
+              </motion.span>{" "}
+            </span>
+          );
+        })}
       </motion.p>
 
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.7, ease: EASE_OUT }}
+        transition={{ duration: 0.7, delay: 1.1, ease: EASE_OUT }}
         className="mt-10 flex flex-col items-center gap-3 sm:flex-row"
       >
         <Link
@@ -75,7 +119,7 @@ export default function Hero() {
           href="#how-it-works"
           className="group inline-flex items-center gap-2 px-4 py-4 text-base font-medium text-ink/70 transition-colors duration-200 ease-swiss hover:text-ink"
         >
-          How it works
+          See it work
           <span
             aria-hidden
             className="transition-transform duration-200 group-hover:translate-y-0.5"

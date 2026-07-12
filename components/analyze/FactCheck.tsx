@@ -97,7 +97,7 @@ function IdleState({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5, ease: EASE_OUT }}
-      className="mt-10 flex flex-col items-start gap-6 border border-ink/10 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8"
+      className="mt-10 flex flex-col items-start gap-6 border border-ink/10 bg-ink/[0.02] p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8"
     >
       <div>
         {/* Hero count — proportional figures (not tabular) at display size. */}
@@ -164,7 +164,7 @@ function ErrorState({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="mt-10 flex flex-col items-center gap-4 border border-ink/10 px-6 py-12 text-center"
+      className="mt-10 flex flex-col items-center gap-4 border border-ink/10 bg-ink/[0.02] px-6 py-12 text-center"
     >
       <p className="text-xs font-medium uppercase tracking-[0.25em] text-danger">
         The check didn&apos;t go through
@@ -214,7 +214,7 @@ function Dashboard({ result }: { result: FactCheckResult }) {
       className="mt-10"
     >
       {/* Summary strip */}
-      <div className="border border-ink/10 p-6 sm:p-8">
+      <div className="border border-ink/10 bg-ink/[0.02] p-6 sm:p-8">
         <div className="flex flex-wrap items-baseline justify-between gap-3">
           <h3 className="text-xl font-bold tracking-tight sm:text-2xl">
             {headline}

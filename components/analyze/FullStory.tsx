@@ -4,7 +4,6 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { EASE_OUT } from "@/components/brand";
 import SpectrumRule from "@/components/SpectrumRule";
-import CornerMarks from "@/components/CornerMarks";
 import type { CoverageStatus, FullStoryResult } from "@/lib/types";
 import SectionHead from "./SectionHead";
 import CiteChips from "./CiteChips";
@@ -107,7 +106,7 @@ function IdleState({ onRun }: { onRun: () => void }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5, ease: EASE_OUT }}
-      className="mt-10 flex flex-col items-start gap-6 border border-ink/10 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8"
+      className="mt-10 flex flex-col items-start gap-6 border border-ink/10 bg-ink/[0.02] p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8"
     >
       <div>
         <p className="text-xl font-bold tracking-tight">
@@ -178,7 +177,7 @@ function ErrorState({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="mt-10 flex flex-col items-center gap-4 border border-ink/10 px-6 py-12 text-center"
+      className="mt-10 flex flex-col items-center gap-4 border border-ink/10 bg-ink/[0.02] px-6 py-12 text-center"
     >
       <p className="text-xs font-medium uppercase tracking-[0.25em] text-danger">
         The comparison didn&apos;t go through
@@ -215,9 +214,7 @@ function Reckoning({ result }: { result: FullStoryResult }) {
       transition={{ duration: 0.5, ease: EASE_OUT }}
       className="mt-10"
     >
-      <div className="relative">
-        <CornerMarks />
-        <div className="overflow-hidden border border-ink/15 bg-paper">
+      <div className="overflow-hidden border border-ink/15 bg-paper">
           <SpectrumRule className="h-[3px]" />
 
           {/* Summary strip */}
@@ -358,7 +355,6 @@ function Reckoning({ result }: { result: FullStoryResult }) {
               </div>
             </div>
           )}
-        </div>
       </div>
 
       <p className="mt-8 max-w-xl text-xs leading-relaxed text-ink/40">

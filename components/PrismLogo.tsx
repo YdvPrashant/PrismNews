@@ -132,23 +132,28 @@ export default function PrismLogo({ size = 180, className }: PrismLogoProps) {
         transition={{ duration: 0.4, delay: 0.65, ease: "easeOut" }}
       />
 
-      {/* Light pulse traveling into the prism (skipped under reduced motion) */}
-      {!reduce && (
-        <motion.circle
-          cy={ENTRY.y}
-          r={2.4}
-          fill="#0A0A0A"
-          initial={{ cx: BEAM_START_X, opacity: 0 }}
-          animate={{ cx: ENTRY.x, opacity: [0, 1, 0] }}
-          transition={{
-            duration: 1.8,
-            delay: 2.6,
-            repeat: Infinity,
-            repeatDelay: 1.4,
-            ease: "easeIn",
-          }}
-        />
-      )}
+      {/* Light pulse traveling into the prism. Always in the tree — the server
+          renders it, so a reduced-motion client must too (conditional rendering
+          on useReducedMotion caused a hydration mismatch); only the looping
+          animation is gated, leaving the dot parked at opacity 0. */}
+      <motion.circle
+        cy={ENTRY.y}
+        r={2.4}
+        fill="#0A0A0A"
+        initial={{ cx: BEAM_START_X, opacity: 0 }}
+        animate={reduce ? undefined : { cx: ENTRY.x, opacity: [0, 1, 0] }}
+        transition={
+          reduce
+            ? undefined
+            : {
+                duration: 1.8,
+                delay: 2.6,
+                repeat: Infinity,
+                repeatDelay: 1.4,
+                ease: "easeIn",
+              }
+        }
+      />
     </svg>
   );
 }

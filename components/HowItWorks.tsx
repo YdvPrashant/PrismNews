@@ -2,16 +2,19 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import SpectrumRule from "./SpectrumRule";
+import InstrumentGlyph, { type InstrumentKind } from "./InstrumentGlyphs";
+import Specimen from "./Specimen";
 import { EASE_OUT } from "./brand";
 
-// The five instruments — one row per tool screen, in the order they appear down
-// the /get-started page. These 01–05 numerals are the only ones on the landing
+// The six instruments — one row per tool screen, in the order they appear down
+// the /get-started page. These 01–06 numerals are the only ones on the landing
 // page (About's cells deliberately carry none), so they read as the tool's own.
 type Step = {
   no: string;
   name: string; // exact tool screen name
   promise: string; // the question that screen answers
   body: string;
+  kind: InstrumentKind; // which schematic glyph marks the row
   chips?: string[]; // honesty chips — cost/requirement caveats, stated up front
 };
 
@@ -21,18 +24,21 @@ const STEPS: Step[] = [
     name: "The Workspace",
     promise: "What exactly am I reading?",
     body: "Paste a link, a YouTube video, or the raw text. Prism fetches the article — or pulls the video's transcript — strips the clutter, and lays the readable text beside your source, so you can see exactly what's being analyzed, correct it, and re-run.",
+    kind: "workspace",
   },
   {
     no: "02",
     name: "The Spectrum",
     promise: "How much is fact, take, or noise?",
     body: "Every sentence is classified — checkable claim, honest opinion, loaded rhetoric, or neutral connective tissue — into a color-coded transcript with the reasoning behind every line, plus a composition readout of the whole piece.",
+    kind: "spectrum",
   },
   {
     no: "03",
     name: "Provenance",
     promise: "Who's telling me this?",
     body: "Prism researches the outlet — ownership, funding, political lean, reliability record — profiles the byline, and runs registry forensics on the domain itself: where it's registered, where it's hosted, how old it is. Every finding cites its source.",
+    kind: "provenance",
     chips: ["On demand", "Link only"],
   },
   {
@@ -40,6 +46,7 @@ const STEPS: Step[] = [
     name: "Fact Check",
     promise: "Do the claims hold up?",
     body: "Opinions can't be verified; claims can. Each checkable claim is searched against the live web, weighed only against the sources found, and returned with a verdict, a confidence read, and citations you can follow.",
+    kind: "factcheck",
     chips: ["On demand"],
   },
   {
@@ -47,7 +54,15 @@ const STEPS: Step[] = [
     name: "The Full Picture",
     promise: "Was it the full story?",
     body: "Prism finds how other outlets reported the same event and shows what this article covered, softened, or left out — and how its framing differs from everyone else's.",
+    kind: "fullstory",
     chips: ["On demand"],
+  },
+  {
+    no: "06",
+    name: "The Report",
+    promise: "Can I keep the receipts?",
+    body: "Choose which findings make the cut — the classified transcript, the dossier, the verdicts, the coverage gaps — and Prism compiles them into one clean, printable document. Real selectable text, citations intact, nothing uploaded.",
+    kind: "report",
   },
 ];
 
@@ -63,8 +78,11 @@ export default function HowItWorks() {
   return (
     <section
       id="how-it-works"
-      className="mx-auto w-full max-w-grid scroll-mt-24 px-6 py-20 md:py-24"
+      className="scroll-mt-24 border-y border-ink/10 bg-ink/[0.02]"
     >
+      {/* Full-bleed whisper panel (Step 17) — the landing's quiet-surface beat
+          that replaced the blueprint grid; the paper demo card pops on it. */}
+      <div className="mx-auto w-full max-w-grid px-6 py-20 md:py-24">
       <div className="grid gap-12 md:grid-cols-12">
         <motion.div
           {...reveal}
@@ -77,7 +95,7 @@ export default function HowItWorks() {
           <h2 className="mt-4 text-4xl font-bold leading-[0.95] tracking-tightest sm:text-5xl">
             One story,
             <br />
-            five instruments.
+            six instruments.
           </h2>
           <div className="mt-6 w-24">
             <SpectrumRule />
@@ -90,12 +108,21 @@ export default function HowItWorks() {
           className="md:col-span-6 md:col-start-7"
         >
           <p className="text-balance text-xl leading-relaxed text-ink/80 sm:text-2xl">
-            Paste a single article — or a video link. Prism runs it through five
-            readings, each answering one question you should be able to ask of
-            any news story.
+            Every sentence gets sorted into what it actually is — a checkable
+            claim, an honest opinion, loaded rhetoric, or filler — and the
+            whole piece gets measured.
+          </p>
+          <p className="mt-6 text-base leading-relaxed text-ink/50">
+            The specimen below is hand-composed to show the idea — paste a real
+            link and Prism runs it live. Then six instruments, each answering
+            one question you should ask of any story.
           </p>
         </motion.div>
       </div>
+
+      {/* The working demo — folded in (Step 17) so the #how-it-works anchor
+          lands on the Specimen first, then the instrument list. */}
+      <Specimen />
 
       <div className="mt-24 border-t border-ink/10">
         {STEPS.map((s, i) => (
@@ -117,7 +144,7 @@ export default function HowItWorks() {
               {s.no}
             </span>
 
-            <div className="md:col-span-4">
+            <div className="min-w-0 md:col-span-3">
               <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-ink/40">
                 {s.name}
               </p>
@@ -126,7 +153,7 @@ export default function HowItWorks() {
               </h3>
             </div>
 
-            <div className="md:col-span-6">
+            <div className="min-w-0 md:col-span-5">
               <p className="text-sm leading-relaxed text-ink/60">{s.body}</p>
               {s.chips && (
                 <p className="mt-4 flex flex-wrap gap-2">
@@ -141,6 +168,11 @@ export default function HowItWorks() {
                 </p>
               )}
             </div>
+
+            {/* Schematic of the screen — marginalia, desktop only. */}
+            <div className="hidden min-w-0 pt-1.5 md:col-span-2 md:flex md:justify-end">
+              <InstrumentGlyph kind={s.kind} />
+            </div>
           </motion.div>
         ))}
       </div>
@@ -151,8 +183,10 @@ export default function HowItWorks() {
         className="mt-8 max-w-xl text-xs leading-relaxed text-ink/40"
       >
         03–05 run live web searches, so they run on demand — one click each.
-        Nothing is checked behind your back.
+        Nothing is checked behind your back. 06 is assembled right in your
+        browser and saved as a PDF.
       </motion.p>
+      </div>
     </section>
   );
 }

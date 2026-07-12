@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { EASE_OUT } from "@/components/brand";
 import SpectrumRule from "@/components/SpectrumRule";
-import CornerMarks from "@/components/CornerMarks";
 import SectionHead from "./SectionHead";
 import {
   effectiveSelection,
@@ -76,9 +75,8 @@ export default function ReportBuilder({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, ease: EASE_OUT }}
-        className="relative mt-10"
+        className="mt-10"
       >
-        <CornerMarks />
         <div className="overflow-hidden border border-ink/15 bg-paper">
           <SpectrumRule className="h-[3px]" />
 
@@ -103,7 +101,7 @@ export default function ReportBuilder({
                     className={`flex w-full items-start gap-4 px-4 py-4 text-left transition-colors duration-200 sm:px-6 ${
                       state.available
                         ? "hover:bg-ink/[0.03]"
-                        : "cursor-not-allowed opacity-40"
+                        : "cursor-not-allowed bg-ink/[0.02] opacity-40"
                     }`}
                   >
                     {/* Drawn Swiss checkbox — filled ink square, paper check. */}
@@ -146,7 +144,7 @@ export default function ReportBuilder({
           </ul>
 
           {/* Footer — count + the download CTA (sanctioned accent use). */}
-          <div className="flex flex-col items-start gap-4 border-t border-ink/10 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+          <div className="flex flex-col items-start gap-4 border-t border-ink/10 bg-ink/[0.02] p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
             <div>
               <p className="text-sm text-ink/60">
                 <span className="tabular-nums">{selectedCount}</span> of{" "}

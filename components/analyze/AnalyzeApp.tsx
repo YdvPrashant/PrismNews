@@ -4,7 +4,6 @@ import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { EASE_OUT } from "@/components/brand";
 import SpectrumRule from "@/components/SpectrumRule";
-import CornerMarks from "@/components/CornerMarks";
 import { detectVideoUrl } from "@/lib/video";
 import { claimConcreteness } from "@/lib/claims";
 import type {
@@ -178,35 +177,24 @@ export default function AnalyzeApp() {
       <div className={reportReady ? "pb-32 print:hidden" : "pb-32"}>
         {/* 01 · Workspace — editable source + live preview, side by side. Fills the
           viewport below the header so the spectrum stays below the fold. */}
-        <section className="relative mx-auto flex min-h-[calc(100vh-3.5rem)] w-full max-w-grid flex-col justify-center px-6 py-16">
-          <div
-            aria-hidden
-            className="bg-blueprint pointer-events-none absolute inset-0"
-          />
-
+        <section className="mx-auto flex min-h-[calc(100vh-3.5rem)] w-full max-w-grid flex-col justify-center px-6 py-16">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: EASE_OUT }}
-            className="relative"
           >
-            {/* Deliberately NOT SectionHead: this screen must fit the 56vh card
-                plus the scroll cue inside one viewport, so it keeps a minimal
-                inline eyebrow instead of the full title + rule + sub treatment. */}
-            <p className="mb-4 flex items-baseline gap-3">
-              <span className="text-xs font-medium tabular-nums text-ink/35">
-                01
-              </span>
-              <span className="text-xs font-medium uppercase tracking-[0.25em] text-accent">
-                The Workspace
-              </span>
-            </p>
+            {/* SectionHead without `sub` (Step 17): title + rule now join the
+                eyebrow, and the sub stays omitted so the 56vh card plus the
+                scroll cue still fit one viewport on short laptops. */}
+            <SectionHead
+              index="01"
+              eyebrow="The Workspace"
+              title="What exactly are you reading?"
+            />
 
             {/* One unified card, two equal-height panes divided by a hairline —
                 source (left) and preview (right) always line up. */}
-            <div className="relative">
-              <CornerMarks />
-              <div className="overflow-hidden border border-ink/15 bg-paper">
+            <div className="mt-8 overflow-hidden border border-ink/15 bg-paper">
                 <SpectrumRule className="h-[3px]" />
                 {/* The row height must be a DEFINITE track (grid-rows-[56vh]), not
                     h-[56vh] on the container: an auto row grows to a long article's
@@ -230,7 +218,6 @@ export default function AnalyzeApp() {
                     <ArticlePreview article={article} text={analyzedText || input} />
                   </div>
                 </div>
-              </div>
             </div>
           </motion.div>
 
@@ -240,7 +227,7 @@ export default function AnalyzeApp() {
           {error && (
             <div
               role="alert"
-              className="relative mx-auto mt-8 flex w-full max-w-md flex-col items-center gap-4 border border-ink/10 bg-paper px-6 py-6 text-center"
+              className="mx-auto mt-8 flex w-full max-w-md flex-col items-center gap-4 border border-ink/10 bg-ink/[0.02] px-6 py-6 text-center"
             >
               <p className="text-xs font-medium uppercase tracking-[0.25em] text-danger">
                 The beam didn&apos;t make it through
@@ -257,7 +244,7 @@ export default function AnalyzeApp() {
           )}
 
           {status !== "error" && (
-            <div className="relative mt-16 flex flex-col items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-ink/35">
+            <div className="mt-16 flex flex-col items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-ink/35">
               <span>{busy ? "Refracting" : "The spectrum below"}</span>
               <motion.span
                 aria-hidden

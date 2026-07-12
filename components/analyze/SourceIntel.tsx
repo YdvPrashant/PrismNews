@@ -4,7 +4,6 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { EASE_OUT } from "@/components/brand";
 import SpectrumRule from "@/components/SpectrumRule";
-import CornerMarks from "@/components/CornerMarks";
 import type {
   ExtractedArticle,
   IntelSource,
@@ -148,7 +147,7 @@ function IdleState({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5, ease: EASE_OUT }}
-      className="mt-10 flex flex-col items-start gap-6 border border-ink/10 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8"
+      className="mt-10 flex flex-col items-start gap-6 border border-ink/10 bg-ink/[0.02] p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8"
     >
       <div className="flex min-w-0 items-center gap-4">
         <span className="flex h-12 w-12 shrink-0 items-center justify-center border border-ink/15 bg-paper">
@@ -224,7 +223,7 @@ function ErrorState({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="mt-10 flex flex-col items-center gap-4 border border-ink/10 px-6 py-12 text-center"
+      className="mt-10 flex flex-col items-center gap-4 border border-ink/10 bg-ink/[0.02] px-6 py-12 text-center"
     >
       <p className="text-xs font-medium uppercase tracking-[0.25em] text-danger">
         The trace didn&apos;t go through
@@ -427,9 +426,7 @@ function Dossier({ result }: { result: SourceIntelResult }) {
       transition={{ duration: 0.5, ease: EASE_OUT }}
       className="mt-10"
     >
-      <div className="relative">
-        <CornerMarks />
-        <div className="overflow-hidden border border-ink/15 bg-paper">
+      <div className="overflow-hidden border border-ink/15 bg-paper">
           <SpectrumRule className="h-[3px]" />
 
           {/* Identity strip */}
@@ -571,7 +568,6 @@ function Dossier({ result }: { result: SourceIntelResult }) {
               )}
             </div>
           </div>
-        </div>
       </div>
 
       <p className="mt-8 max-w-xl text-xs leading-relaxed text-ink/40">

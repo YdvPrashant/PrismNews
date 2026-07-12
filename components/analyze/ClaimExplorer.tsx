@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { EASE_OUT } from "@/components/brand";
-import CornerMarks from "@/components/CornerMarks";
 import type { ClaimCheck, Confidence, Evidence } from "@/lib/types";
 import { STANCE_META, VERDICT_META } from "./verdicts";
 import Favicon from "./Favicon";
@@ -18,12 +17,10 @@ export default function ClaimExplorer({ checks }: { checks: ClaimCheck[] }) {
   const reduce = useReducedMotion();
 
   return (
-    <div className="relative">
-      <CornerMarks />
-      {/* Stacks on phones: the rail becomes a horizontal strip on top and the
-          detail pane scrolls below it (min-h-0 keeps that scroll working in
-          column flex — same trap as the workspace grid). */}
-      <div className="flex h-[clamp(24rem,56vh,36rem)] flex-col overflow-hidden border border-ink/15 md:flex-row">
+    // Stacks on phones: the rail becomes a horizontal strip on top and the
+    // detail pane scrolls below it (min-h-0 keeps that scroll working in
+    // column flex — same trap as the workspace grid).
+    <div className="flex h-[clamp(24rem,56vh,36rem)] flex-col overflow-hidden border border-ink/15 md:flex-row">
         {/* Rail — one numbered button per claim, colored by verdict. */}
         <nav
           aria-label="Checked claims"
@@ -75,7 +72,6 @@ export default function ClaimExplorer({ checks }: { checks: ClaimCheck[] }) {
             </motion.div>
           </AnimatePresence>
         </div>
-      </div>
     </div>
   );
 }
